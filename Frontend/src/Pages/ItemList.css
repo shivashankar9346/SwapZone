@@ -1,0 +1,288 @@
+/* =========================
+   ITEM PAGE
+========================= */
+
+.item-page {
+
+    min-height: calc(100vh - 72px);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 50px 20px;
+
+    box-sizing: border-box;
+
+    background-color: #fffbeb;
+}
+
+
+/* =========================
+   ITEM CARD
+========================= */
+
+.item-card {
+
+    width: 100%;
+
+    max-width: 650px;
+
+    padding: 35px;
+
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+
+    border: 1px solid #f3f4f6;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 15px 40px rgba(17, 24, 39, 0.08);
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.item-header {
+
+    margin-bottom: 28px;
+}
+
+
+.item-header h2 {
+
+    margin: 0;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+.item-header p {
+
+    margin: 7px 0 0;
+
+    font-size: 14px;
+
+    color: #6b7280;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.item-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    flex: 1;
+}
+
+
+.form-group label {
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background-color: #ffffff;
+
+    color: #111827;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+
+.form-group input,
+.form-group select {
+
+    height: 45px;
+
+    padding: 0 13px;
+}
+
+
+.form-group textarea {
+
+    min-height: 100px;
+
+    padding: 12px 13px;
+
+    resize: vertical;
+
+    font-family: inherit;
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+
+    color: #9ca3af;
+}
+
+
+/* =========================
+   FOCUS
+========================= */
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+
+    border-color: #f59e0b;
+
+    box-shadow:
+        0 0 0 3px rgba(245, 158, 11, 0.12);
+}
+
+
+/* =========================
+   TWO COLUMN ROW
+========================= */
+
+.form-row {
+
+    display: flex;
+
+    gap: 18px;
+}
+
+
+/* =========================
+   FILE INPUT
+========================= */
+
+.form-group input[type="file"] {
+
+    padding: 11px;
+
+    cursor: pointer;
+
+    color: #6b7280;
+
+}
+
+
+/* =========================
+   POST BUTTON
+========================= */
+
+.post-button {
+
+    width: 100%;
+
+    height: 46px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background-color: #f59e0b;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.post-button:hover {
+
+    background-color: #d97706;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .item-page {
+
+        padding: 30px 15px;
+
+    }
+
+
+    .item-card {
+
+        padding: 25px 20px;
+
+    }
+
+
+    .item-header h2 {
+
+        font-size: 24px;
+
+    }
+
+
+    .form-row {
+
+        flex-direction: column;
+
+        gap: 18px;
+
+    }
+
+}

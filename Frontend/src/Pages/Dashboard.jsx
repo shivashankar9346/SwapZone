@@ -1,0 +1,231 @@
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import "./Dashboard.css"
+
+const Dashboard = () => {
+
+    const [formData, setFormData] = useState(
+        JSON.parse(localStorage.getItem("SwapZoneUser"))
+    )
+
+    return (
+        <div className="dashboard-page">
+
+            <div className="dashboard-container">
+
+                {/* =========================
+                    PROFILE HEADER
+                ========================= */}
+
+                <div className="profile-card">
+
+                    <div className="profile-avatar">
+                        {formData.name.charAt(0).toUpperCase()}
+                    </div>
+
+                    <div className="profile-info">
+
+                        <h1>
+                            Hi, {formData.name}
+                        </h1>
+
+                        <p>
+                            Manage your SwapZone account
+                        </p>
+
+                        <div className="user-details">
+
+                            <span>
+                                📍 {formData.campusorhostel}
+                            </span>
+
+                            <span>
+                                ✉️ {formData.email}
+                            </span>
+
+                            <span>
+                                🎓 {formData.branch}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {/* =========================
+                    DASHBOARD MENU
+                ========================= */}
+
+                <div className="dashboard-content">
+
+                    <div className="dashboard-sidebar">
+
+                        <h3>Dashboard</h3>
+
+                        <ul>
+
+                            <li>
+                                <Link to="/dashboard" className="active">
+                                    <span>▣</span>
+                                    Overview
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/my-listings">
+                                    <span>📦</span>
+                                    My Listings
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/wishlist">
+                                    <span>♡</span>
+                                    Wishlist
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/inquiries">
+                                    <span>💬</span>
+                                    Inquiries & Offers
+                                </Link>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+
+                    {/* =========================
+                        DASHBOARD MAIN
+                    ========================= */}
+
+                    <div className="dashboard-main">
+
+                        <div className="welcome-card">
+
+                            <div>
+                                <h2>
+                                    Welcome to SwapZone 👋
+                                </h2>
+
+                                <p>
+                                    Start buying, selling and swapping
+                                    items with students on your campus.
+                                </p>
+                            </div>
+
+                            <Link
+                                to="/add-item"
+                                className="add-item-btn"
+                            >
+                                + Add Item
+                            </Link>
+
+                        </div>
+
+
+                        {/* =========================
+                            STAT CARDS
+                        ========================= */}
+
+                        <div className="stats-container">
+
+                            <div className="stat-card">
+
+                                <div className="stat-icon">
+                                    📦
+                                </div>
+
+                                <div>
+                                    <h3>0</h3>
+                                    <p>My Listings</p>
+                                </div>
+
+                            </div>
+
+
+                            <div className="stat-card">
+
+                                <div className="stat-icon">
+                                    ♡
+                                </div>
+
+                                <div>
+                                    <h3>0</h3>
+                                    <p>Wishlist</p>
+                                </div>
+
+                            </div>
+
+
+                            <div className="stat-card">
+
+                                <div className="stat-icon">
+                                    💬
+                                </div>
+
+                                <div>
+                                    <h3>0</h3>
+                                    <p>Offers</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {/* =========================
+                            RECENT ACTIVITY
+                        ========================= */}
+
+                        <div className="activity-card">
+
+                            <div className="activity-header">
+
+                                <h2>Recent Activity</h2>
+
+                                <Link to="/my-listings">
+                                    View all
+                                </Link>
+
+                            </div>
+
+                            <div className="empty-state">
+
+                                <div className="empty-icon">
+                                    📦
+                                </div>
+
+                                <h3>No listings yet</h3>
+
+                                <p>
+                                    You haven't posted anything yet.
+                                    Start by adding your first item.
+                                </p>
+
+                                <Link
+                                    to="/add-item"
+                                    className="empty-btn"
+                                >
+                                    Create Listing
+                                </Link>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    )
+}
+
+export default Dashboard
