@@ -1,77 +1,85 @@
-/* =========================
+
+/* ================================
    HOME PAGE
-========================= */
+================================ */
 
 .home {
     min-height: 100vh;
-    background: #fffbeb;
+    background: #ffffff;
     color: #1f2937;
 }
 
 
-/* =========================
+/* ================================
    HERO SECTION
-========================= */
+================================ */
 
 .hero {
-    padding: 80px 20px 70px;
+    min-height: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px 20px;
+
     background:
         radial-gradient(
             circle at top right,
-            rgba(245, 158, 11, 0.14),
+            rgba(255, 214, 64, 0.18),
             transparent 35%
         ),
-        #fffbeb;
+        linear-gradient(
+            180deg,
+            #fffdf5 0%,
+            #ffffff 100%
+        );
 }
 
 
 .hero-content {
-    max-width: 1100px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
     text-align: center;
 }
 
 
-/* =========================
+/* ================================
    BADGE
-========================= */
+================================ */
 
 .hero-badge {
     display: inline-block;
 
-    padding: 8px 16px;
+    padding: 9px 18px;
+    margin-bottom: 25px;
 
+    background: #fff4bf;
+    color: #8a6500;
+
+    border: 1px solid #f5d76e;
     border-radius: 30px;
 
-    background: #fff7ed;
-
-    border: 1px solid #fed7aa;
-
-    color: #d97706;
-
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
 
-    margin-bottom: 20px;
+    letter-spacing: 0.3px;
 }
 
 
-/* =========================
-   HERO TITLE
-========================= */
+/* ================================
+   HERO HEADING
+================================ */
 
 .hero h1 {
     margin: 0;
 
-    font-size: clamp(42px, 6vw, 68px);
-
-    line-height: 1.08;
-
-    letter-spacing: -2px;
-
-    color: #111827;
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.05;
 
     font-weight: 800;
+    letter-spacing: -2.5px;
+
+    color: #111827;
 }
 
 
@@ -80,587 +88,454 @@
 }
 
 
-.hero p {
+/* ================================
+   HERO DESCRIPTION
+================================ */
+
+.hero-content > p {
     max-width: 680px;
 
-    margin: 24px auto 0;
+    margin: 28px auto 0;
 
-    font-size: 17px;
-
+    font-size: 18px;
     line-height: 1.7;
 
     color: #6b7280;
 }
 
 
-/* =========================
-   SEARCH FORM
-========================= */
+/* ================================
+   HERO BUTTONS
+================================ */
 
-.search-form {
-    max-width: 850px;
-
-    margin: 40px auto 0;
-
+.hero-buttons {
     display: flex;
 
-    gap: 12px;
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 35px;
+}
+
+
+.create-account-btn,
+.login-btn {
+    display: inline-flex;
 
     align-items: center;
+    justify-content: center;
+
+    min-width: 150px;
+
+    padding: 13px 25px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 
-/* Search input */
+/* CREATE ACCOUNT */
 
-.search-box {
-    flex: 1;
-
-    display: flex;
-
-    height: 54px;
-
-    background: #ffffff;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    box-shadow: 0 8px 25px rgba(17, 24, 39, 0.06);
-}
-
-
-.search-box input {
-    flex: 1;
-
-    border: none;
-
-    outline: none;
-
-    padding: 0 18px;
-
-    font-size: 14px;
-
-    color: #111827;
-
-    min-width: 0;
-}
-
-
-.search-box input::placeholder {
-    color: #9ca3af;
-}
-
-
-.search-box button {
-    border: none;
-
-    padding: 0 25px;
-
+.create-account-btn {
     background: #f59e0b;
+    color: #ffff;
 
-    color: #ffffff;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+    box-shadow: 0 8px 20px rgba(244, 196, 48, 0.25);
 }
 
 
-.search-box button:hover {
+.create-account-btn:hover {
     background: #d97706;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 25px rgba(244, 196, 48, 0.32);
 }
 
 
-/* Category */
+/* LOGIN */
 
-.category-box {
-    height: 54px;
+.login-btn {
+    background: #ffffff;
 
-    min-width: 180px;
+    color: #333333;
+
+    border: 1px solid #dcdcdc;
 }
 
 
-.category-box select {
-    width: 100%;
+.login-btn:hover {
+    background: #f8f8f8;
 
-    height: 100%;
+    transform: translateY(-2px);
+}
 
-    padding: 0 15px;
 
-    border-radius: 12px;
+/* ================================
+   SWAP INFO SECTION
+================================ */
 
-    border: 1px solid #e5e7eb;
-
-    outline: none;
+.swap-info {
+    padding: 90px 20px;
 
     background: #ffffff;
 
-    color: #374151;
-
-    font-size: 14px;
-
-    cursor: pointer;
-
-    box-shadow: 0 8px 25px rgba(17, 24, 39, 0.06);
+    border-top: 1px solid #f1f1f1;
 }
 
 
-/* =========================
-   LISTINGS SECTION
-========================= */
-
-.listings {
-    max-width: 1200px;
-
-    margin: 0 auto;
-
-    padding: 70px 20px 100px;
-}
-
-
-/* =========================
+/* ================================
    SECTION HEADER
-========================= */
+================================ */
 
 .section-header {
-    display: flex;
+    max-width: 700px;
 
-    justify-content: space-between;
+    margin: 0 auto 55px;
 
-    align-items: flex-end;
-
-    margin-bottom: 35px;
+    text-align: center;
 }
 
 
 .section-label {
-    display: block;
+    display: inline-block;
 
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 
-    font-size: 12px;
-
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 800;
 
     letter-spacing: 2px;
 
-    color: #f59e0b;
+    color: #c18d00;
 }
 
 
 .section-header h2 {
     margin: 0;
 
-    font-size: 32px;
+    font-size: clamp(30px, 5vw, 44px);
 
-    color: #111827;
+    line-height: 1.2;
 
-    letter-spacing: -0.5px;
+    color: #171717;
+
+    letter-spacing: -1px;
 }
 
 
-.view-all {
-    border: none;
+.section-header p {
+    margin: 18px auto 0;
 
-    background: transparent;
+    max-width: 580px;
 
-    color: #d97706;
+    color: #737373;
 
-    font-size: 14px;
+    font-size: 16px;
 
-    font-weight: 600;
-
-    cursor: pointer;
+    line-height: 1.7;
 }
 
 
-.view-all:hover {
-    color: #92400e;
+/* ================================
+   INFO CARDS
+================================ */
+
+.info-cards {
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
 }
 
 
-/* =========================
-   CARDS GRID
-========================= */
+.info-card {
+    padding: 35px 28px;
 
-.list-cards {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 50px !important;
-}
-
-.listing-card {
-    background: white;
-    border: 2px solid blue;
-}
-
-
-/* =========================
-   LISTING CARD
-========================= */
-
-.listing-card {
     background: #ffffff;
 
-    border: 1px solid #f1f1f1;
+    border: 1px solid #eeeeee;
 
-    border-radius: 16px;
+    border-radius: 18px;
 
-    overflow: hidden;
+    text-align: center;
 
     box-shadow:
-        0 5px 15px rgba(17, 24, 39, 0.05);
+        0 8px 30px rgba(0, 0, 0, 0.05);
 
     transition:
         transform 0.25s ease,
-        box-shadow 0.25s ease;
-
-    cursor: pointer;
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
 }
 
 
-.listing-card:hover {
-    transform: translateY(-6px);
+.info-card:hover {
+    transform: translateY(-7px);
+
+    border-color: #f1d36a;
 
     box-shadow:
-        0 15px 35px rgba(17, 24, 39, 0.12);
+        0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
 
-/* =========================
-   CARD IMAGE
-========================= */
+/* ================================
+   CARD ICON
+================================ */
 
-.card-image {
-    height: 190px;
+.info-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 22px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    padding: 20px;
+    border-radius: 16px;
+
+    background: #fff6cf;
+
+    font-size: 28px;
+}
+
+
+.info-card h3 {
+    margin: 0 0 12px;
+
+    font-size: 20px;
+
+    color: #202020;
+}
+
+
+.info-card p {
+    margin: 0;
+
+    color: #737373;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* ================================
+   BOTTOM CTA
+================================ */
+
+.bottom-cta {
+    max-width: 1100px;
+
+    margin: 20px auto 80px;
+
+    padding: 70px 30px;
+
+    text-align: center;
+
+    border-radius: 24px;
 
     background:
         linear-gradient(
             135deg,
-            #fef3c7,
-            #fff7ed
+            #fff8d8,
+            #fffdf2
         );
 
-    color: #92400e;
-
-    font-size: 20px;
-
-    font-weight: 700;
-
-    text-align: center;
-
-    position: relative;
+    border: 1px solid #f1df91;
 }
 
 
-/* Decorative circle */
-
-.card-image::before {
-    content: "";
-
-    position: absolute;
-
-    width: 90px;
-
-    height: 90px;
-
-    border-radius: 50%;
-
-    background: rgba(245, 158, 11, 0.12);
-
-    top: 25px;
-
-    right: 30px;
-}
-
-
-.card-image span {
-    position: relative;
-
-    z-index: 1;
-}
-
-
-/* =========================
-   CARD CONTENT
-========================= */
-
-.card-content {
-    padding: 22px;
-}
-
-
-/* Category */
-
-.category {
-    display: inline-block;
-
-    padding: 5px 10px;
-
-    border-radius: 20px;
-
-    background: #fff7ed;
-
-    color: #d97706;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.5px;
-}
-
-
-/* Price */
-
-.card-content h3 {
-    margin: 14px 0 8px;
-
-    font-size: 22px;
-
-    color: #111827;
-}
-
-
-/* Description */
-
-.card-content > p {
+.bottom-cta h2 {
     margin: 0;
 
-    color: #6b7280;
+    font-size: clamp(30px, 5vw, 42px);
 
-    font-size: 14px;
+    color: #171717;
+
+    letter-spacing: -1px;
+}
+
+
+.bottom-cta p {
+    max-width: 550px;
+
+    margin: 15px auto 28px;
+
+    color: #6b6b6b;
+
+    font-size: 16px;
 
     line-height: 1.6;
-
-    display: -webkit-box;
-
-    -webkit-line-clamp: 2;
-
-    -webkit-box-orient: vertical;
-
-    overflow: hidden;
 }
 
 
-/* =========================
-   CARD BOTTOM
-========================= */
-
-.card-bottom {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-top: 22px;
-
-    padding-top: 16px;
-
-    border-top: 1px solid #f3f4f6;
+.bottom-cta .create-account-btn {
+    display: inline-flex;
 }
 
 
-.card-bottom strong {
-    color: #6b7280;
-
-    font-size: 12px;
-
-    text-transform: capitalize;
-
-    padding: 5px 10px;
-
-    background: #f9fafb;
-
-    border-radius: 6px;
-}
-
-
-/* Swap button */
-
-.card-bottom button {
-    border: none;
-
-    padding: 9px 18px;
-
-    border-radius: 8px;
-
-    background: #f59e0b;
-
-    color: #ffffff;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-
-.card-bottom button:hover {
-    background: #d97706;
-
-    transform: translateY(-1px);
-}
-
-
-/* =========================
-   NO ITEMS
-========================= */
-
-.list-cards > div:not(.listing-card) {
-    grid-column: 1 / -1;
-
-    padding: 70px 20px;
-
-    text-align: center;
-
-    background: #ffffff;
-
-    border: 1px dashed #d1d5db;
-
-    border-radius: 16px;
-}
-
-
-.list-cards > div:not(.listing-card) h1 {
-    margin: 0 0 8px;
-
-    font-size: 24px;
-
-    color: #374151;
-}
-
-
-/* =========================
-   TABLET
-========================= */
+/* ================================
+   RESPONSIVE — TABLET
+================================ */
 
 @media (max-width: 900px) {
 
-    .list-cards {
-        grid-template-columns: repeat(2, 1fr);
+    .hero {
+        min-height: 560px;
 
-        gap: 24px;
+        padding: 70px 20px;
     }
 
-    .search-form {
-        max-width: 700px;
+
+    .info-cards {
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
+
+    .info-card:last-child {
+        grid-column:
+            1 / -1;
+
+        max-width: 500px;
+
+        width: 100%;
+
+        margin: 0 auto;
+    }
 }
 
 
-/* =========================
-   MOBILE
-========================= */
+/* ================================
+   RESPONSIVE — MOBILE
+================================ */
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
 
     .hero {
-        padding: 60px 18px 50px;
+        min-height: auto;
+
+        padding: 70px 18px;
+    }
+
+
+    .hero-badge {
+        font-size: 12px;
+
+        padding: 8px 14px;
     }
 
 
     .hero h1 {
-        font-size: 40px;
+        font-size: 43px;
 
         letter-spacing: -1.5px;
     }
 
 
-    .hero p {
+    .hero-content > p {
         font-size: 15px;
+
+        line-height: 1.6;
+
+        margin-top: 22px;
     }
 
 
-    .search-form {
+    .hero-buttons {
         flex-direction: column;
 
+        width: 100%;
+
         gap: 12px;
-
-        width: 100%;
     }
 
 
-    .search-box {
+    .create-account-btn,
+    .login-btn {
         width: 100%;
+
+        max-width: 280px;
     }
 
 
-    .category-box {
-        width: 100%;
+    .swap-info {
+        padding: 70px 18px;
     }
 
 
     .section-header {
-        align-items: flex-start;
-
-        gap: 15px;
+        margin-bottom: 35px;
     }
 
 
     .section-header h2 {
-        font-size: 26px;
+        font-size: 31px;
     }
 
 
-    .listings {
-        padding: 50px 18px 70px;
+    .section-header p {
+        font-size: 15px;
     }
 
 
-    .list-cards {
+    .info-cards {
         grid-template-columns: 1fr;
 
-        gap: 22px;
+        gap: 18px;
     }
 
 
-    .card-image {
-        height: 180px;
+    .info-card:last-child {
+        grid-column: auto;
+
+        max-width: none;
+    }
+
+
+    .info-card {
+        padding: 30px 22px;
+    }
+
+
+    .bottom-cta {
+        margin: 10px 18px 50px;
+
+        padding: 50px 20px;
+
+        border-radius: 18px;
+    }
+
+
+    .bottom-cta h2 {
+        font-size: 30px;
+    }
+
+
+    .bottom-cta p {
+        font-size: 15px;
     }
 
 }
 
-
-/* =========================
-   SMALL MOBILE
-========================= */
-
-@media (max-width: 400px) {
-
-    .hero h1 {
-        font-size: 34px;
-    }
-
-
-    .search-box button {
-        padding: 0 16px;
-    }
-
-
-    .card-content {
-        padding: 18px;
-    }
-
-}

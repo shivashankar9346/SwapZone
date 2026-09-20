@@ -1,39 +1,45 @@
 import express from "express"
-import item from "../Models/itemModel.js"
+import Item from "../Models/itemModel.js"
 
 // This is to create a new item
 export const createItem = async (req, res) => {
     try {
 
-        const newItem = new item({
+        console.log("🔥 CREATE ITEM");
+        console.log("BODY:", req.body);
+
+        const newItem = new Item({
             bookname: req.body.bookname,
             description: req.body.description,
             price: Number(req.body.price),
             category: req.body.category,
             condition: req.body.condition,
+            userId: req.body.userId,
 
             image: req.file
                 ? `/uploads/${req.file.filename}`
                 : ""
         });
 
-        const SavedItem = await newItem.save();
+        const savedItem = await newItem.save();
+
+        console.log("✅ ITEM CREATED:", savedItem);
 
         res.status(201).json({
-            message: "Item created Successfully",
-            item: SavedItem
+            message: "Item created successfully",
+            item: savedItem
         });
 
-    }
-    catch (err) {
+    } catch (err) {
+
+        console.log("❌ CREATE ITEM ERROR:", err);
+
         res.status(500).json({
             message: "Failed to create item",
             error: err.message
         });
-
-
     }
-}
+};
 
 // to get all the items
 
@@ -67,7 +73,7 @@ export const getAllItems = async (req, res) => {
             filter.condition = condition;
         }
 
-        const getItems = await item.find(filter).sort({
+        const getItems = await Item.find(filter).sort({
             createdAt: -1
         });
 
@@ -95,7 +101,7 @@ export const getAllItems = async (req, res) => {
 export const updateItems = async (req,res) => {
     try {
 
-        const updateItem = await item.findByIdAndUpdate(
+        const updateItem = await Item.findByIdAndUpdate(
             req.params.id,
             req.body,
             {
@@ -125,3 +131,59 @@ export const updateItems = async (req,res) => {
 
     }
 }
+
+export const getMyListings = async (req, res) => {
+
+    try {
+
+        const { userId } = req.params;
+
+        const items = await Item.find({
+            userId: userId
+        }).sort({ createdAt: -1 });
+
+        res.status(200).json({
+            message: "My listings fetched successfully",
+            count: items.length,
+            items
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: "Failed to fetch my listings",
+            error: err.message
+        });
+
+    }
+};
+
+
+
+
+export const getItemById = async (req, res) => {
+    try {
+
+        const foundItem = await Item.findById(req.params.id);
+
+        if (!foundItem) {
+            return res.status(404).json({
+                message: "Item not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Item fetched successfully",
+            item: foundItem
+        });
+
+    } catch (err) {
+
+        console.log("GET ITEM ERROR:", err);
+
+        res.status(500).json({
+            message: "Failed to fetch item",
+            error: err.message
+        });
+    }
+};

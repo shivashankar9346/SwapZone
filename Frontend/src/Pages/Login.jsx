@@ -2,90 +2,121 @@ import React from 'react'
 import "./Login.css"
 import { useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
+import { useAuth } from '../Context/UserContext'
 
 const Login = () => {
 
-const navigate = useNavigate()
+  const navigate = useNavigate()
 
-const[errors,setErrors]=useState(false);
-const[error,setError]=useState("")
-const[loading,setLoading]=useState(false)
+  const { loading, handleLogin } = useAuth()
 
-const[formData,setFormData]=useState({
-    email:"",
-    password:""
-})
-
-const validateForm=()=>{
-     const e={}
-
-     if(!formData.email.trim()){
-      e.email="Email is required"
-     }
-
-     if(!formData.password.trim()){
-      e.password="Password is required"
-     }
-
-     setErrors(e)
-
-     return Object.keys(e).length === 0
-    
-    
-}
-
-const handleForm = (e)=>{
-
-  const { name ,value} = e.target
-
-  setFormData({...formData,[name]:value})
-
-}
+  const [error, setError] = useState("")
+  const [errors, setErrors] = useState({});
 
 
-const handleSubmit = (e)=>{
+  const[formData,setFormData]=useState({
+      email:"",
+      password:""
+  })
+
+
+  //Validate Form
+
+  const validateForm = () => {
+    const e = {}
+
+    if (!formData.email.trim()) {
+      e.email = "Email is required"
+    }
+
+    if (!formData.password.trim()) {
+      e.password = "Password is required"
+    }
+
+    setErrors(e)
+
+    return Object.keys(e).length === 0
+
+
+  }
+
+  //Handle input changes
+
+  const handleForm = (e) => {
+
+    const { name, value } = e.target
+
+    setFormData({ ...formData, [name]: value })
+
+    // Remove error when user starts typing
+     setErrors({ ...errors, [name]: "" });
+
+  }
+
+
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
     setError("")
 
     const isValid = validateForm()
-    if(!isValid){
+    if (!isValid) {
       return
     }
 
     try{
-      setLoading(true)
 
-      const storedUser = localStorage.getItem("SwapZoneUser")
-
-      const user = JSON.parse(storedUser);
-
-      if(!storedUser){
-
-          setError("User is not registered. Please register first.")
-        return  
-      }
-
-      if(
-        formData.email == user.email &&
-        formData.password == user.password
-      ){
-        localStorage.setItem("SwapZoneLoggedIn",true)
-
-         navigate("/")
-      }else{
-        setError("Invalid email or password")
-      }
-
-    }
-    catch(err){
-      setError("Something went wrong. Please try again.")
-    }finally{
-      setLoading(false)
+      await handleLogin(formData)
+      navigate("/market-place")
+    }catch(err){
+      console.error("Login error:", err);
+       setError( 
+        err.response?.data?.message || 
+        err.message ||
+         "Invalid email or password"
+         );
     }
 
-}
+    // try{
 
+
+    // const storedUser = localStorage.getItem("SwapZoneUser")
+
+    // const user = JSON.parse(storedUser);
+
+    // if(!storedUser){
+
+    //     setError("User is not registered. Please register first.")
+    //   return  
+    // }
+
+    // if(
+    //   formData.email == user.email &&
+    //   formData.password == user.password
+    // ){
+    //   localStorage.setItem("SwapZoneLoggedIn",true)
+
+    //    navigate("/")
+    // }else{
+    //   setError("Invalid email or password")
+    // }
+
+    // }
+    // catch(err){
+    //   setError("Something went wrong. Please try again.")
+    // }finally{
+    //   setLoading(false)
+    // }
+
+  }
+
+  if (loading) {
+    return (
+      <main>
+        <h1>Loading...</h1>
+      </main>
+    )
+  }
 
   return (
     <div className="login-page">

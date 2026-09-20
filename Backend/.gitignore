@@ -2,7 +2,7 @@
 .env
 .env.local
 .env.development
-.env.production
+.env.productioncdc 
 
 # Dependencies
 node_modules/

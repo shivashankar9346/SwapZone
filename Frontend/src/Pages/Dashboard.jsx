@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import "./Dashboard.css"
+import { useAuth } from "../Context/UserContext"
 
 const Dashboard = () => {
 
-    const [formData, setFormData] = useState(
-        JSON.parse(localStorage.getItem("SwapZoneUser"))
-    )
+    const { user } = useAuth();
 
     return (
         <div className="dashboard-page">
@@ -20,13 +19,13 @@ const Dashboard = () => {
                 <div className="profile-card">
 
                     <div className="profile-avatar">
-                        {formData.name.charAt(0).toUpperCase()}
+                        {user.name.charAt(0).toUpperCase()}
                     </div>
 
                     <div className="profile-info">
 
                         <h1>
-                            Hi, {formData.name}
+                            Hi, {user.name}
                         </h1>
 
                         <p>
@@ -36,15 +35,15 @@ const Dashboard = () => {
                         <div className="user-details">
 
                             <span>
-                                📍 {formData.campusorhostel}
+                                📍 {user.campusorhostel}
                             </span>
 
                             <span>
-                                ✉️ {formData.email}
+                                ✉️ {user.email}
                             </span>
 
                             <span>
-                                🎓 {formData.branch}
+                                🎓 {user.branch}
                             </span>
 
                         </div>

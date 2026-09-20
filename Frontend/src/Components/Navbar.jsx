@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/UserContext";
 
 const Navbar = () => {
 
   const navigate = useNavigate();
+  const { user, handleLogout: logout } = useAuth();
 
-  const [loggedin, setLoggedIn] = useState(
-    localStorage.getItem("SwapZoneLoggedIn") === "true"
-  );
 
 
   const handleLogout = () => {
-
-    localStorage.removeItem("SwapZoneLoggedIn");
-
-    setLoggedIn(false);
-
+    logout()
     navigate("/login");
   };
 
@@ -26,14 +21,14 @@ const Navbar = () => {
 
       <div className="right-side">
 
-        <Link to="/" className="logo">
+        <Link to={user ? "/market-place" : "/"} className="logo">
           <span>Swap</span>Zone
         </Link>
 
       </div>
 
 
-      {loggedin ?
+      {user ? (
 
         <div className="loggedin-nav">
 
@@ -65,7 +60,7 @@ const Navbar = () => {
         </div>
 
 
-        :
+      ) : (
 
         <div className="left-side">
 
@@ -90,7 +85,7 @@ const Navbar = () => {
 
         </div>
 
-      }
+      )}
 
     </nav>
   );

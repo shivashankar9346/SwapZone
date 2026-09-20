@@ -7,6 +7,11 @@ import Login from "./Pages/login"
 import ItemList from "./Pages/itemList"
 import Dashboard from "./Pages/dashboard"
 import MyListings from "./Components/MyListings"
+import Swap from "./Components/Swap"
+
+import { AuthProvider } from "./Context/auth.context"
+import MarketPlace from "./Pages/MarketPlace"
+
 
 const App = () => {
   const router = createBrowserRouter([
@@ -56,10 +61,29 @@ const App = () => {
       <Navbar/>
       <MyListings/>
       </>
+    },{
+      path:"/market-place",
+      element:
+      <><Navbar/>
+      <MarketPlace/>
+      </>
+    },
+    {
+      path:"/swap/:id",
+      element:
+       <>
+       <Navbar/>
+       <Swap/>
+      </>
     }
   ])
 
-  return <RouterProvider router={router} />;
+  
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 

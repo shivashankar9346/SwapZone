@@ -1,9 +1,12 @@
-import User from "../Models/authModel";
+import User from "../Models/authModel.js";
 import bcrypt from "bcryptjs"
 
 export const RegisterUser = async (req, res) => {
 
     try {
+
+          console.log("🔥 REGISTER CONTROLLER HIT");
+        console.log("BODY:", req.body);
 
         const {
             name,
@@ -14,9 +17,14 @@ export const RegisterUser = async (req, res) => {
         } = req.body
 
 
+                console.log("Checking user:", email);
+
+
         //if user exists
 
         const existingUser = await User.findOne({ email })
+
+         console.log("Existing user:", existingUser);
 
         if (existingUser) {
             return res.status(400).json({
@@ -37,6 +45,10 @@ export const RegisterUser = async (req, res) => {
             branch,
             password: hashedPassword
         })
+       
+        console.log("✅ USER CREATED:", user);
+
+     
 
         res.status(201).json({
             message: "Registration Successful",
@@ -64,13 +76,13 @@ export const RegisterUser = async (req, res) => {
 export const loginUser = async (req, res) => {
 
     try {
-        const { name, email } = req.body;
+        const {  email , password } = req.body;
 
         // Find user
         const user = await User.findOne({ email });
 
         if (!user) {
-            res.status(401).json({
+           return res.status(401).json({
                 message: "Invalid email or password"
             })
         }
@@ -98,10 +110,10 @@ export const loginUser = async (req, res) => {
         });
 
     }
-    catch {
+    catch(err) {
 
         res.status(500).json({
-            message: error.message
+            message: err.message
         });
     }
 }

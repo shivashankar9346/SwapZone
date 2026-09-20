@@ -1,0 +1,517 @@
+/* =========================
+   PAGE
+========================= */
+
+.swap-page {
+    min-height: 100vh;
+    background: #f8fafc;
+    padding: 40px 20px;
+
+    font-family: Arial, sans-serif;
+    color: #1f2937;
+}
+
+.swap-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-button {
+    border: none;
+    background: white;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid #e5e7eb;
+
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin-bottom: 25px;
+
+    transition: 0.2s ease;
+}
+
+.back-button:hover {
+    background: #f59e0b;
+    color: white;
+    border-color: #f59e0b;
+}
+
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.swap-card {
+    display: grid;
+
+    grid-template-columns: 48% 52%;
+
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+.swap-image-section {
+    min-height: 550px;
+
+    background: #fef3c7;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.swap-image {
+    width: 100%;
+    height: 100%;
+
+    min-height: 550px;
+
+    object-fit: cover;
+}
+
+.no-image {
+    font-size: 90px;
+}
+
+
+/* =========================
+   DETAILS
+========================= */
+
+.swap-details {
+    padding: 40px;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.swap-title-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+}
+
+.swap-label {
+    display: inline-block;
+
+    background: #fff7ed;
+    color: #d97706;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+
+    margin-bottom: 12px;
+}
+
+.swap-title-row h1 {
+    margin: 0;
+
+    font-size: 32px;
+
+    line-height: 1.2;
+
+    color: #111827;
+}
+
+
+/* =========================
+   FAVORITE
+========================= */
+
+.favorite-button {
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    border: 1px solid #e5e7eb;
+
+    background: white;
+
+    font-size: 25px;
+
+    color: #6b7280;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.favorite-button:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
+.favorite-active {
+    background: #fff7ed;
+    color: #f59e0b;
+    border-color: #f59e0b;
+}
+
+
+/* =========================
+   PRICE
+========================= */
+
+.swap-price {
+    margin-top: 25px;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    color: #f59e0b;
+}
+
+
+/* =========================
+   CONDITION
+========================= */
+
+.swap-condition {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: #f9fafb;
+
+    border-radius: 10px;
+}
+
+.swap-condition span {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.swap-condition strong {
+    color: #047857;
+
+    text-transform: capitalize;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.swap-description {
+    margin-top: 30px;
+}
+
+.swap-description h3 {
+    margin-bottom: 10px;
+
+    font-size: 17px;
+
+    color: #111827;
+}
+
+.swap-description p {
+    margin: 0;
+
+    color: #6b7280;
+
+    line-height: 1.7;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.swap-actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 30px;
+}
+
+.buy-button,
+.swap-button {
+    padding: 13px 15px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.buy-button {
+    background: #f59e0b;
+
+    border: 1px solid #f59e0b;
+
+    color: white;
+}
+
+.buy-button:hover {
+    background: #d97706;
+
+    border-color: #d97706;
+}
+
+.swap-button {
+    background: white;
+
+    border: 1px solid #f59e0b;
+
+    color: #d97706;
+}
+
+.swap-button:hover {
+    background: #fff7ed;
+}
+
+
+/* =========================
+   MESSAGE SELLER
+========================= */
+
+.seller-message {
+    margin-top: 35px;
+
+    padding-top: 30px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.seller-message h3 {
+    margin: 0 0 7px;
+
+    color: #111827;
+
+    font-size: 18px;
+}
+
+.seller-message p {
+    margin: 0 0 15px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+.seller-message textarea {
+    width: 100%;
+
+    min-height: 90px;
+
+    resize: vertical;
+
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 14px;
+}
+
+.seller-message textarea:focus {
+    border-color: #f59e0b;
+
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+}
+
+.message-button {
+    margin-top: 12px;
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #111827;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.message-button:hover {
+    background: #374151;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.swap-loading,
+.swap-error {
+    max-width: 500px;
+
+    margin: 100px auto;
+
+    padding: 50px 30px;
+
+    text-align: center;
+
+    background: white;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.loading-icon,
+.error-icon {
+    font-size: 45px;
+
+    margin-bottom: 15px;
+}
+
+.swap-loading h2,
+.swap-error h2 {
+    margin: 0 0 10px;
+
+    color: #111827;
+}
+
+.swap-loading p,
+.swap-error p {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.swap-error button {
+    margin-top: 15px;
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #f59e0b;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .swap-card {
+        grid-template-columns: 1fr;
+    }
+
+    .swap-image-section {
+        min-height: 350px;
+    }
+
+    .swap-image {
+        min-height: 350px;
+    }
+
+    .swap-details {
+        padding: 25px;
+    }
+
+    .swap-title-row h1 {
+        font-size: 26px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .swap-page {
+        padding: 20px 12px;
+    }
+
+    .swap-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .swap-details {
+        padding: 20px;
+    }
+
+    .swap-price {
+        font-size: 28px;
+    }
+}

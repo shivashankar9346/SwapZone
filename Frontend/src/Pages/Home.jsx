@@ -1,115 +1,169 @@
+
 import React from "react";
 import "./Home.css";
-import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
 
-  const [loading, setLoading] =useState("true");
-  const [userData, setUserData] = useState([]);
+    return (
+        <main className="home">
 
-  useEffect(() => {
-    const getItems = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/items");
+            {/* ================= HERO SECTION ================= */}
 
-        const data = await response.json();
-        setUserData(data.items || []);
+            <section className="hero">
 
+                <div className="hero-content">
 
-      }
-      catch (err) {
-        console.log("", err);
+                    <span className="hero-badge">
+                        🎓 Built for Students
+                    </span>
 
-      }
-      finally {
-        setLoading(false);
-      }
-    }
-    getItems()
+                    <h1>
+                        Find what you need.
+                        <br />
+                        <span>Swap on Campus.</span>
+                    </h1>
 
-  }, [])
-
-
-
-  return (
-    <main className="home">
-      {/* ================= HERO SECTION ================= */}
-      <section className="hero">
-        <div className="hero-content">
-          <span className="hero-badge">
-            🎓 Built for Students
-          </span>
-          <h1>
-            Find what you need.
-            <br />
-            <span>Swap on Campus.</span>
-          </h1>
-          <p>
-            The ultimate marketplace for students. Buy, sell, or trade
-            textbooks, electronics, and skills within your campus community.
-          </p>
-
-          {/* ================= SEARCH ================= */}
-          <form className="search-form">
-            <div className="search-box">
-              <input type="text" placeholder="Search for books, electronics, skills..." />
-              <button type="submit"> Search</button>
-            </div>
-            <div className="category-box">
-              <select defaultValue="">
-                <option value="" disabled> All categories</option>
-                <option value="electronics"> Electronics</option>
-                <option value="books"> Books</option>
-                <option value="dorm"> Dorm Gear</option>
-                <option value="skills"> Skills</option>
-                <option value="others"> Others</option>
-              </select>
-            </div>
-          </form>
-        </div>
-      </section>
+                    <p>
+                        SwapZone is a student marketplace where you can
+                        buy, sell, and exchange textbooks, electronics,
+                        dorm items, and useful skills within your campus
+                        community.
+                    </p>
 
 
-      {/* ================= LISTING SECTION ================= */}
-      <section className="listings">
-        <div className="section-header">
-          <div>
-            <span className="section-label">   EXPLORE </span>
-            <h2>   Fresh on SwapZone </h2>
-          </div>
-          <button className="view-all">   View all → </button>
-        </div>
+                    {/* ================= CALL TO ACTION ================= */}
 
-        {/* ================= CARDS ================= */}
-        <div className="list-cards">
-          {userData.length > 0 ? (
-            userData.map((item, index) => (
-              <div className="listing-card">
-                <div className="card-image">
-                  <span>{item.bookname}</span>
+                    <div className="hero-buttons">
+
+                        <Link
+                            to="/register"
+                            className="create-account-btn"
+                        >
+                            Create Account
+                        </Link>
+
+                        <Link
+                            to="/login"
+                            className="login-btn"
+                        >
+                            Login
+                        </Link>
+
+                    </div>
+
                 </div>
 
-                <div className="card-content">
-                  <h1>{item.bookname}</h1>
-                  <span className="category">{item.category}  </span>
-                  <h3>    {item.price}  </h3>
-                  <p>  {item.description} </p>
-                  <div className="card-bottom">
-                    <strong> {item.condition} </strong>
-                    <button>Swap  </button>
-                  </div>
+            </section>
+
+
+            {/* ================= WHY SWAPZONE ================= */}
+
+            <section className="swap-info">
+
+                <div className="section-header">
+
+                    <span className="section-label">
+                        HOW IT WORKS
+                    </span>
+
+                    <h2>
+                        Swap your things. Keep it simple.
+                    </h2>
+
+                    <p>
+                        Create an account to start buying, selling,
+                        and swapping with students around you.
+                    </p>
+
                 </div>
-              </div>
-            ))
-          ) : (
-            <div>
-              <h1>  No items</h1>
-            </div>
-          )}
-        </div>
-      </section>
-    </main>
-  );
+
+
+                <div className="info-cards">
+
+                    <div className="info-card">
+
+                        <div className="info-icon">
+                            📝
+                        </div>
+
+                        <h3>
+                            Create an Account
+                        </h3>
+
+                        <p>
+                            Sign up with your student details and
+                            create your SwapZone account.
+                        </p>
+
+                    </div>
+
+
+                    <div className="info-card">
+
+                        <div className="info-icon">
+                            📦
+                        </div>
+
+                        <h3>
+                            Post Your Items
+                        </h3>
+
+                        <p>
+                            List textbooks, electronics, dorm items,
+                            or anything useful to other students.
+                        </p>
+
+                    </div>
+
+
+                    <div className="info-card">
+
+                        <div className="info-icon">
+                            🔄
+                        </div>
+
+                        <h3>
+                            Buy or Swap
+                        </h3>
+
+                        <p>
+                            Connect with students and buy, sell,
+                            or exchange items within your campus.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            {/* ================= BOTTOM CTA ================= */}
+
+            <section className="bottom-cta">
+
+                <h2>
+                    Ready to swap your things?
+                </h2>
+
+                <p>
+                    Join SwapZone and start connecting with students
+                    on your campus.
+                </p>
+
+                <Link
+                    to="/register"
+                    className="create-account-btn"
+                >
+                    Create Your Account
+                </Link>
+
+            </section>
+
+        </main>
+    );
 };
 
 export default Home;
+

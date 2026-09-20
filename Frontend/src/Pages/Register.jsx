@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/UserContext";
 
 const Register = () => {
 
@@ -8,7 +9,6 @@ const Register = () => {
 
     const [error, setError] = useState("");
     const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false);
 
     const [form, setForm] = useState({
         name: "",
@@ -18,6 +18,7 @@ const Register = () => {
         password: ""
     });
 
+    const { loading, handleRegister } = useAuth();
 
     const validateForm = () => {
 
@@ -59,7 +60,6 @@ const Register = () => {
             ...form,
             [name]: value
         });
-
     };
 
 
@@ -77,28 +77,33 @@ const Register = () => {
 
         try {
 
-            setLoading(true);
+           const data = await handleRegister(form);
+            console.log("Registration successful:", data);
 
-            // console.log("Registration Data:", form);
-
-
-            localStorage.setItem("SwapZoneUser", JSON.stringify(form))
-
-
-            // Backend API will come here later
 
             navigate("/login");
 
         } catch (err) {
 
-            setError(err.message || "Registration Failed");
+            console.error("Registration failed:", err);
 
-        } finally {
-
-            setLoading(false);
-
+            setError(
+                err.response?.data?.message ||
+                err.message ||
+                "Registration Failed"
+            );
         }
     };
+
+
+    if (loading) {
+        return (
+            <main>
+                <h1>Loading...</h1>
+            </main>
+        );
+    }
+
 
 
     return (
@@ -232,7 +237,7 @@ const Register = () => {
                     )}
 
 
-                    {/* <button
+                    <button
                         type="submit"
                         className="register-button"
                         disabled={loading}
@@ -241,15 +246,9 @@ const Register = () => {
                             ? "Creating Account..."
                             : "Create Account"
                         }
-                    </button> */}
-
-                    <button
-                        type="button"
-                        className="post-button"
-                        onClick={() => alert("Button clicked!")}
-                    >
-                        Post Listing
                     </button>
+
+
 
                 </form>
 

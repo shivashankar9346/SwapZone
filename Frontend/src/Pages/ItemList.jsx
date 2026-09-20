@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import "./ItemList.css"
 import { useNavigate, Navigate } from 'react-router-dom'
+import { useAuth } from "../Context/UserContext";
 
 const ItemList = () => {
 
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const [error, setError] = useState("")
     const [errors, setErrors] = useState({})
@@ -17,7 +19,7 @@ const ItemList = () => {
         price: "",
         category: "",
         condition: "",
-        image: ""
+        image: null
     })
 
     const validateData = () => {
@@ -30,12 +32,17 @@ const ItemList = () => {
         if (!Data.description.trim()) {
             e.description = "Description is required"
         }
-        if (!Data.price.trim()) {
-            e.price = "Price is required"
+
+        if (!Data.price) {
+            e.price = "Price is required";
+        } else if (Number(Data.price) < 0) {
+            e.price = "Price cannot be negative";
         }
+
         if (!Data.category.trim()) {
             e.category = "Category is required"
         }
+
         if (!Data.condition.trim()) {
             e.condition = "condition is required"
         }
@@ -52,67 +59,102 @@ const ItemList = () => {
 
     const handleForm = (e) => {
 
-        const { name, value ,files} = e.target;
+        const { name, value, files } = e.target;
 
-        setData({
-            ...Data,
-            [name]:name === "image" ? files[0]: value
-        });
+        if (name === "image") {
 
+            setData((previousData) => ({
+                ...previousData,
+                image: files && files.length > 0
+                    ? files[0]
+                    : null
+            }));
+
+            return;
+        }
+
+        setData((previousData) => ({
+            ...previousData,
+            [name]: value
+        }));
     };
 
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
+
+        console.log("🔥 SUBMIT BUTTON CLICKED");
+        console.log("Current Data:", Data);
+
         setError("");
-
-
 
         const isValid = validateData();
 
+        console.log("Validation result:", isValid);
+        console.log("Validation errors:", errors);
+
         if (!isValid) {
+            console.log("❌ Validation failed");
             return;
         }
 
-
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:5000/api/items", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    bookname: Data.bookname,
-                    description: Data.description,
-                    price: Number(Data.price),
-                    category: Data.category,
-                    condition: Data.condition,
-                    image: Data.image
-                })
-            })
 
-            const result = await response.json()
+            const formData = new FormData();
 
-            if (!response.ok) {
-                throw new Error(result.message || "Posting failed");
+            formData.append("bookname", Data.bookname);
+            formData.append("description", Data.description);
+            formData.append("price", Data.price);
+            formData.append("category", Data.category);
+            formData.append("condition", Data.condition);
+            if (user?.id) {
+                formData.append("userId", user.id);
             }
 
-            console.log("Item created:", result.item);
+            if (Data.image) {
+                formData.append("image", Data.image);
+            }
+
+            console.log("📦 Sending FormData");
+
+            const response = await fetch(
+                "http://localhost:3000/api/items",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            console.log("📡 Response received:", response.status);
+
+            const result = await response.json();
+
+            console.log("📨 Backend response:", result);
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message || "Posting failed"
+                );
+            }
+
+            console.log("✅ ITEM CREATED:", result.item);
 
             alert("Listing posted successfully!");
 
             navigate("/my-listings");
 
-
         } catch (err) {
-            setError(err.message || "Posting Failed");
-        }
-        finally {
+
+            console.error("❌ POST ERROR:", err);
+
+            setError(err.message || "Posting failed");
+
+        } finally {
+
             setLoading(false);
         }
-    }
+    };
 
 
     return (
@@ -248,8 +290,8 @@ const ItemList = () => {
                             <input
                                 type="file"
                                 name="image"
-                                onChange={handleForm}
                                 accept="image/*"
+                                onChange={handleForm}
                             />
 
                         </div>

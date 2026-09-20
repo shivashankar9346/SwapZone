@@ -1,360 +1,289 @@
-/* ================================
-   MY LISTINGS PAGE
-================================ */
+/* =========================
+   PAGE
+========================= */
 
 .listings-page {
     min-height: 100vh;
-    background: #f5f7fb;
+    background: #f8fafc;
     padding: 40px 20px;
     font-family: Arial, sans-serif;
+    color: #1f2937;
 }
 
-
-/* ================================
-   MAIN CONTAINER
-================================ */
-
 .listings-container {
-    width: 100%;
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 
-/* ================================
+/* =========================
    HEADER
-================================ */
+========================= */
 
 .listings-header {
-    margin-bottom: 30px;
-}
-
-.listings-header > div {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 20px;
+    margin-bottom: 35px;
 }
 
-
-/* Back button */
-
-.listings-header a {
-    width: 44px;
-    height: 44px;
+.listings-header > a {
+    width: 45px;
+    height: 45px;
 
     display: flex;
     align-items: center;
     justify-content: center;
-
-    text-decoration: none;
 
     background: white;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
 
+    text-decoration: none;
     font-size: 20px;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-
-    transition: all 0.2s ease;
+    transition: 0.2s ease;
 }
 
-.listings-header a:hover {
+.listings-header > a:hover {
+    background: #f59e0b;
+    border-color: #f59e0b;
     transform: translateX(-3px);
-    background: #f0fdfa;
-    border-color: #20b2a6;
 }
-
-
-/* Title */
 
 .listings-header h1 {
     margin: 0;
-
     font-size: 32px;
     font-weight: 700;
-
     color: #111827;
 }
 
 .listings-header p {
     margin: 7px 0 0;
-
     color: #6b7280;
     font-size: 15px;
 }
 
 
-/* ================================
-   LISTINGS GRID
-================================ */
-
-.listings-container {
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* ================================
+/* =========================
    LISTING CARD
-================================ */
+========================= */
 
 .listing-card {
-    width: 100%;
-
     display: flex;
-    gap: 22px;
-
-    padding: 22px;
-    margin-bottom: 18px;
+    gap: 25px;
 
     background: white;
-
     border: 1px solid #e5e7eb;
     border-radius: 18px;
 
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
 
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+
+    transition: 0.25s ease;
 }
 
 .listing-card:hover {
     transform: translateY(-3px);
-
-    border-color: rgba(32, 178, 166, 0.35);
-
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.09);
+    border-color: #f59e0b;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
 
-/* ================================
-   IMAGE / ICON
-================================ */
+/* =========================
+   IMAGE
+========================= */
 
 .listing-image {
-    width: 150px;
-    min-width: 150px;
-    height: 150px;
+    width: 190px;
+    height: 160px;
+
+    flex-shrink: 0;
+
+    background: #fef3c7;
+    border-radius: 14px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: #f0fdfa;
+    overflow: hidden;
+}
 
-    border: 1px solid #ccfbf1;
-    border-radius: 14px;
+.listing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-    font-size: 55px;
+.listing-image span {
+    font-size: 50px;
 }
 
 
-/* ================================
+/* =========================
    CONTENT
-================================ */
+========================= */
 
 .listing-content {
     flex: 1;
-
     display: flex;
     flex-direction: column;
 }
 
-
-/* ================================
-   TOP SECTION
-================================ */
-
 .listing-top {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-
+    align-items: flex-start;
     gap: 15px;
-
-    margin-bottom: 10px;
 }
 
 .listing-top h2 {
     margin: 0;
-
     font-size: 22px;
-    font-weight: 700;
-
     color: #111827;
 }
 
 
-/* ================================
-   CONDITION BADGE
-================================ */
+/* =========================
+   CONDITION
+========================= */
 
 .condition {
     padding: 6px 12px;
 
     background: #ecfdf5;
-
     color: #047857;
 
-    border: 1px solid #a7f3d0;
-
-    border-radius: 999px;
+    border-radius: 20px;
 
     font-size: 12px;
     font-weight: 600;
 
     text-transform: capitalize;
-
-    white-space: nowrap;
 }
 
 
-/* ================================
+/* =========================
    DESCRIPTION
-================================ */
+========================= */
 
 .listing-description {
-    margin: 0 0 18px;
+    margin: 12px 0;
 
     color: #6b7280;
-
     font-size: 14px;
     line-height: 1.6;
 
-    max-width: 700px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 
-/* ================================
+/* =========================
    DETAILS
-================================ */
+========================= */
 
 .listing-details {
     display: flex;
     align-items: center;
-    gap: 12px;
-
-    margin-bottom: 20px;
-}
-
-
-/* Category */
-
-.category {
-    padding: 6px 12px;
-
-    background: #f3f4f6;
-
-    color: #4b5563;
-
-    border-radius: 8px;
-
-    font-size: 12px;
-    font-weight: 600;
-
-    text-transform: capitalize;
-}
-
-
-/* Price */
-
-.price {
-    font-size: 18px;
-    font-weight: 700;
-
-    color: #20a99d;
-}
-
-
-/* ================================
-   ACTION BUTTONS
-================================ */
-
-.listing-actions {
-    display: flex;
-    gap: 10px;
+    gap: 15px;
 
     margin-top: auto;
 }
 
+.category {
+    display: inline-block;
 
-/* Common button */
+    padding: 6px 12px;
 
-.listing-actions button {
+    background: #f3f4f6;
+    color: #4b5563;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    text-transform: capitalize;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #f59e0b;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.listing-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.edit-btn,
+.delete-btn {
     padding: 9px 18px;
 
-    border-radius: 9px;
+    border-radius: 8px;
 
     font-size: 13px;
     font-weight: 600;
 
     cursor: pointer;
 
-    transition: all 0.2s ease;
+    transition: 0.2s ease;
 }
 
-
-/* Edit */
-
 .edit-btn {
-    background: #f0fdfa;
-
-    color: #0f766e;
-
-    border: 1px solid #99f6e4;
+    background: #fff7ed;
+    color: #d97706;
+    border: 1px solid #fed7aa;
 }
 
 .edit-btn:hover {
-    background: #ccfbf1;
-
-    transform: translateY(-1px);
+    background: #f59e0b;
+    color: white;
+    border-color: #f59e0b;
 }
 
-
-/* Delete */
-
 .delete-btn {
-    background: #fff1f2;
-
+    background: #fef2f2;
     color: #dc2626;
-
-    border: 1px solid #fecdd3;
+    border: 1px solid #fecaca;
 }
 
 .delete-btn:hover {
-    background: #ffe4e6;
-
-    transform: translateY(-1px);
+    background: #dc2626;
+    color: white;
+    border-color: #dc2626;
 }
 
 
-/* ================================
+/* =========================
    EMPTY STATE
-================================ */
+========================= */
 
 .empty-listings {
-    width: 100%;
-
-    padding: 70px 25px;
-
-    text-align: center;
-
     background: white;
 
     border: 1px dashed #d1d5db;
+    border-radius: 18px;
 
-    border-radius: 20px;
+    padding: 70px 30px;
+
+    text-align: center;
 }
 
-
-/* Empty icon */
-
 .empty-icon {
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
 
     margin: 0 auto 20px;
 
@@ -362,197 +291,103 @@
     align-items: center;
     justify-content: center;
 
-    background: #f0fdfa;
-
+    background: #fef3c7;
     border-radius: 50%;
 
-    font-size: 34px;
+    font-size: 30px;
 }
-
-
-/* Empty title */
 
 .empty-listings h2 {
     margin: 0 0 10px;
 
     color: #111827;
-
-    font-size: 22px;
+    font-size: 24px;
 }
-
-
-/* Empty description */
 
 .empty-listings p {
-    max-width: 450px;
-
-    margin: 0 auto 25px;
-
     color: #6b7280;
-
     font-size: 14px;
-    line-height: 1.6;
+    margin-bottom: 25px;
 }
 
 
-/* Create button */
+/* =========================
+   CREATE BUTTON
+========================= */
 
 .create-btn {
-    padding: 11px 22px;
+    display: inline-block;
 
-    border: none;
+    padding: 12px 22px;
+
+    background: #f59e0b;
+    color: white;
+
     border-radius: 10px;
 
-    background: #20b2a6;
-
-    color: white;
+    text-decoration: none;
 
     font-size: 14px;
     font-weight: 600;
 
-    cursor: pointer;
-
-    transition: all 0.2s ease;
+    transition: 0.2s ease;
 }
 
 .create-btn:hover {
-    background: #168f85;
-
+    background: #d97706;
     transform: translateY(-2px);
-
-    box-shadow: 0 7px 18px rgba(32, 178, 166, 0.25);
 }
 
 
-/* ================================
-   TABLET
-================================ */
+/* =========================
+   LOADING / ERROR
+========================= */
 
-@media (max-width: 768px) {
-
-    .listings-page {
-        padding: 30px 16px;
-    }
-
-    .listings-header h1 {
-        font-size: 27px;
-    }
-
-    .listing-card {
-        padding: 18px;
-        gap: 16px;
-    }
-
-    .listing-image {
-        width: 120px;
-        min-width: 120px;
-        height: 120px;
-
-        font-size: 42px;
-    }
-
-    .listing-top h2 {
-        font-size: 19px;
-    }
-
+.listings-page > h2 {
+    text-align: center;
+    margin-top: 100px;
+    color: #6b7280;
 }
 
 
-/* ================================
-   MOBILE
-================================ */
+/* =========================
+   RESPONSIVE
+========================= */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
     .listings-page {
-        padding: 20px 12px;
-    }
-
-    .listings-header {
-        margin-bottom: 22px;
-    }
-
-    .listings-header > div {
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .listings-header a {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
+        padding: 25px 15px;
     }
 
     .listings-header h1 {
-        font-size: 24px;
+        font-size: 26px;
     }
-
-    .listings-header p {
-        font-size: 13px;
-    }
-
-
-    /* Card becomes vertical */
 
     .listing-card {
         flex-direction: column;
-
-        padding: 16px;
-
-        border-radius: 15px;
     }
-
 
     .listing-image {
         width: 100%;
-        height: 140px;
-
-        min-width: unset;
-
-        font-size: 48px;
+        height: 200px;
     }
-
 
     .listing-top {
-        align-items: flex-start;
-
         flex-direction: column;
-
-        gap: 8px;
+        gap: 10px;
     }
-
-
-    .listing-top h2 {
-        font-size: 18px;
-    }
-
-
-    .listing-description {
-        font-size: 13px;
-
-        margin-bottom: 15px;
-    }
-
 
     .listing-details {
-        margin-bottom: 18px;
+        margin-top: 10px;
     }
-
 
     .listing-actions {
-        width: 100%;
+        margin-top: 15px;
     }
 
-
-    .listing-actions button {
+    .edit-btn,
+    .delete-btn {
         flex: 1;
-
-        padding: 10px;
     }
-
-
-    .empty-listings {
-        padding: 50px 18px;
-    }
-
 }

@@ -35,8 +35,15 @@ const itemsSchema = new mongoose.Schema(
         image: {
             type: String,
             default: ""
+        },
+           userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
         }
 
+    },{
+        timestamps: true
     }
 )
 
