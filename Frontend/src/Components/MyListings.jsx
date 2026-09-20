@@ -5,60 +5,71 @@ import "./MyListings.css";
 
 const MyListings = () => {
 
-    const { user } = useAuth();
+    const {user,myListings: userData,setMyListings} = useAuth();
 
-    const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-   useEffect(() => {
+    useEffect(() => {
 
-    console.log("USER IN MY LISTINGS:", user);
+        console.log("USER IN MY LISTINGS:", user);
 
-    const getMyListings = async () => {
+        const getMyListings = async () => {
 
-        if (!user?.id) {
-            console.log("❌ No user ID found");
-            setLoading(false);
-            return;
-        }
-
-        try {
-
-            console.log("🔎 User ID:", user.id);
-
-            const response = await fetch(
-                `http://localhost:3000/api/items/my/${user.id}`
-            );
-
-            console.log("📡 Status:", response.status);
-
-            const data = await response.json();
-
-            console.log("📦 My Listings:", data);
-
-            if (!response.ok) {
-                throw new Error(
-                    data.message || "Failed to fetch listings"
-                );
+            if (!user?.id) {
+                console.log("❌ No user ID found");
+                setLoading(false);
+                return;
             }
 
-            setUserData(data.items || []);
+            try {
 
-        } catch (err) {
 
-            console.log("❌ ERROR:", err);
-            setError(err.message);
+                const token = localStorage.getItem("token");
 
-        } finally {
+                if (!token) {
+                    setError("Please login again");
+                    return;
+                }
 
-            setLoading(false);
-        }
-    };
+                const response = await fetch(
+                    `http://localhost:3000/api/items/my/${user.id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
 
-    getMyListings();
 
-}, [user]);
+
+
+                const data = await response.json();
+
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message || "Failed to fetch listings"
+                    );
+                }
+
+                setMyListings(data.items || []);
+
+            } catch (err) {
+
+                console.log("❌ ERROR:", err);
+                setError(err.message);
+
+            } finally {
+
+                setLoading(false);
+            }
+        };
+
+        getMyListings();
+
+    }, [user]);
 
 
     if (loading) {
@@ -78,8 +89,8 @@ const MyListings = () => {
 
                 <div className="listings-header">
 
-                    <Link to="/dashboard">
-                        🔙
+                    <Link className="listingBack-button" to="/dashboard">
+                    Back
                     </Link>
 
                     <div>
@@ -88,9 +99,17 @@ const MyListings = () => {
                         <p>
                             Manage the items you have posted on SwapZone.
                         </p>
+                    
                     </div>
 
+                      <div className="listing-count">
+                        {userData.length}{" "}
+                        {userData.length === 1 ? "Item" : "Items"}
+                    </div>
+                  
+
                 </div>
+                
 
 
                 {userData.length > 0 ? (
@@ -154,10 +173,6 @@ const MyListings = () => {
 
 
                                 <div className="listing-actions">
-
-                                    <button className="edit-btn">
-                                        Edit
-                                    </button>
 
                                     <button className="delete-btn">
                                         Delete

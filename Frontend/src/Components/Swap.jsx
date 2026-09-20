@@ -13,6 +13,8 @@ const Swap = () => {
     const [message, setMessage] = useState("");
     const [favorite, setFavorite] = useState(false);
 
+
+
     useEffect(() => {
 
         const getItem = async () => {
@@ -52,8 +54,65 @@ const Swap = () => {
     }, [id]);
 
 
-    const handleFavorite = () => {
-        setFavorite(!favorite);
+
+    const handleFavorite = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                navigate("/login");
+                return;
+            }
+
+            if (!favorite) {
+
+                const response = await fetch(
+                    `http://localhost:3000/api/wishlist/${id}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message);
+                }
+
+                setFavorite(true);
+
+            } else {
+
+                const response = await fetch(
+                    `http://localhost:3000/api/wishlist/${id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message);
+                }
+
+                setFavorite(false);
+            }
+
+        } catch (error) {
+
+            console.error(error);
+            alert(error.message);
+
+        }
     };
 
 
@@ -184,9 +243,8 @@ const Swap = () => {
 
 
                             <button
-                                className={`favorite-button ${
-                                    favorite ? "favorite-active" : ""
-                                }`}
+                                className={`favorite-button ${favorite ? "favorite-active" : ""
+                                    }`}
                                 onClick={handleFavorite}
                             >
                                 {favorite ? "♥" : "♡"}

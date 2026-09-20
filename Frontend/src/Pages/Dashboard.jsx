@@ -5,16 +5,14 @@ import { useAuth } from "../Context/UserContext"
 
 const Dashboard = () => {
 
-    const { user } = useAuth();
+    const { user, myListings, wishlist } = useAuth();
+
+
 
     return (
         <div className="dashboard-page">
 
             <div className="dashboard-container">
-
-                {/* =========================
-                    PROFILE HEADER
-                ========================= */}
 
                 <div className="profile-card">
 
@@ -51,11 +49,6 @@ const Dashboard = () => {
                     </div>
 
                 </div>
-
-
-                {/* =========================
-                    DASHBOARD MENU
-                ========================= */}
 
                 <div className="dashboard-content">
 
@@ -97,11 +90,6 @@ const Dashboard = () => {
 
                     </div>
 
-
-                    {/* =========================
-                        DASHBOARD MAIN
-                    ========================= */}
-
                     <div className="dashboard-main">
 
                         <div className="welcome-card">
@@ -126,11 +114,6 @@ const Dashboard = () => {
 
                         </div>
 
-
-                        {/* =========================
-                            STAT CARDS
-                        ========================= */}
-
                         <div className="stats-container">
 
                             <div className="stat-card">
@@ -140,7 +123,12 @@ const Dashboard = () => {
                                 </div>
 
                                 <div>
-                                    <h3>0</h3>
+                                    <h3>
+                                        {myListings.length}{" "}
+                                        {myListings.length === 1
+                                            ? "Item"
+                                            : "Items"}
+                                    </h3>
                                     <p>My Listings</p>
                                 </div>
 
@@ -154,7 +142,12 @@ const Dashboard = () => {
                                 </div>
 
                                 <div>
-                                    <h3>0</h3>
+                                    <h3>
+                                        {wishlist.length}{" "}
+                                        {wishlist.length === 1
+                                            ? "Item"
+                                            : "Items"}
+                                    </h3>
                                     <p>Wishlist</p>
                                 </div>
 
@@ -176,10 +169,6 @@ const Dashboard = () => {
 
                         </div>
 
-
-                        {/* =========================
-                            RECENT ACTIVITY
-                        ========================= */}
 
                         <div className="activity-card">
 

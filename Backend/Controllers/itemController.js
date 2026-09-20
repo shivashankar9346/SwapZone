@@ -1,5 +1,5 @@
 import express from "express"
-import Item from "../Models/itemModel.js"
+import item from "../Models/itemModel.js"
 
 // This is to create a new item
 export const createItem = async (req, res) => {
@@ -8,13 +8,13 @@ export const createItem = async (req, res) => {
         console.log("🔥 CREATE ITEM");
         console.log("BODY:", req.body);
 
-        const newItem = new Item({
+        const newItem = new item({
             bookname: req.body.bookname,
             description: req.body.description,
             price: Number(req.body.price),
             category: req.body.category,
             condition: req.body.condition,
-            userId: req.body.userId,
+            userId: req.user.id,
 
             image: req.file
                 ? `/uploads/${req.file.filename}`
@@ -46,6 +46,7 @@ export const createItem = async (req, res) => {
 export const getAllItems = async (req, res) => {
     try {
 
+
         const { search, category, condition } = req.query;
 
         const filter = {};
@@ -73,7 +74,7 @@ export const getAllItems = async (req, res) => {
             filter.condition = condition;
         }
 
-        const getItems = await Item.find(filter).sort({
+        const getItems = await item.find(filter).sort({
             createdAt: -1
         });
 
@@ -101,7 +102,7 @@ export const getAllItems = async (req, res) => {
 export const updateItems = async (req,res) => {
     try {
 
-        const updateItem = await Item.findByIdAndUpdate(
+        const updateItem = await item.findByIdAndUpdate(
             req.params.id,
             req.body,
             {
@@ -136,9 +137,12 @@ export const getMyListings = async (req, res) => {
 
     try {
 
+
+
+
         const { userId } = req.params;
 
-        const items = await Item.find({
+        const items = await item.find({
             userId: userId
         }).sort({ createdAt: -1 });
 
@@ -164,7 +168,7 @@ export const getMyListings = async (req, res) => {
 export const getItemById = async (req, res) => {
     try {
 
-        const foundItem = await Item.findById(req.params.id);
+        const foundItem = await item.findById(req.params.id);
 
         if (!foundItem) {
             return res.status(404).json({

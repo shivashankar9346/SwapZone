@@ -27,6 +27,14 @@ export async function login(formData){
 
         const response = await api.post("/api/auth/login", formData)
 
+        
+        localStorage.setItem(
+            "token",
+            response.data.token
+        );
+
+
+
         return response.data
 
     }
@@ -52,3 +60,137 @@ export async function getMe() {
         throw err;
     }
 }
+
+
+// ================= ITEM APIs =================
+
+export async function getItems() {
+
+    try {
+
+        const response = await api.get(
+            "/api/items"
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        console.log("Get Items Error:", err);
+        throw err;
+
+    }
+}
+
+
+export async function getItemById(id) {
+
+    try {
+
+        const response = await api.get(
+            `/api/items/${id}`
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        console.log("Get Item Error:", err);
+        throw err;
+
+    }
+}
+
+
+export async function createItem(formData) {
+
+    try {
+
+        const response = await api.post(
+            "/api/items",
+            formData
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        console.log("Create Item Error:", err);
+        throw err;
+
+    }
+}
+
+
+
+// ================= WISHLIST APIs =================
+
+export async function getWishlist() {
+
+    try {
+
+        const response = await api.get(
+            "/api/wishlist"
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        console.log("Get Wishlist Error:", err);
+        throw err;
+
+    }
+}
+
+
+export async function addToWishlist(itemId) {
+
+    try {
+
+        const response = await api.post(
+            `/api/wishlist/${itemId}`
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        console.log("Add Wishlist Error:", err);
+        throw err;
+
+    }
+}
+
+
+export async function removeFromWishlist(itemId) {
+
+    try {
+
+        const response = await api.delete(
+            `/api/wishlist/${itemId}`
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        console.log("Remove Wishlist Error:", err);
+        throw err;
+
+    }
+}
+
+
+api.interceptors.request.use((config) => {
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+
+        config.headers.Authorization = `Bearer ${token}`;
+
+    }
+
+    return config;
+});

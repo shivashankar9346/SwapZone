@@ -1,12 +1,30 @@
 import { useContext } from "react";
-import { register, login, getMe} from "../Server/Api";
+import { register, login, getMe } from "../Server/Api";
 import { AuthContext } from "./auth.context";
 
 export const useAuth = () => {
 
-    const context = useContext(AuthContext)
+    const context = useContext(AuthContext);
 
-    const { user, setUser, loading, setLoading } = context
+    const {
+        user,
+        setUser,
+
+        loading,
+        setLoading,
+
+        myListings,
+        setMyListings,
+
+        wishlist,
+        setWishlist
+
+    } = context;
+
+
+    // ================================
+    // LOGIN
+    // ================================
 
     const handleLogin = async (formData) => {
 
@@ -14,42 +32,82 @@ export const useAuth = () => {
 
         try {
 
-            const data = await login(formData)
-            setUser(data.user)
+            const data = await login(formData);
+
+            setUser(data.user);
+
             return data;
-        }
-        catch (err) {
+
+        } catch (err) {
+
             console.log(err);
 
-        }
-        finally {
+        } finally {
 
-            setLoading(false)
-        }
+            setLoading(false);
 
-    }
+        }
+    };
+
+
+    // ================================
+    // REGISTER
+    // ================================
 
     const handleRegister = async (form) => {
+
         setLoading(true);
+
         try {
 
-            const data = await register(form)
-            setUser(data.user)
+            const data = await register(form);
+
+            setUser(data.user);
+
             return data;
+
         } catch (err) {
+
             console.log(err);
-        }
-        finally {
 
-            setLoading(false)
-        }
-    }
+        } finally {
 
-const handleLogout = () => {
+            setLoading(false);
+
+        }
+    };
+
+
+    // ================================
+    // LOGOUT
+    // ================================
+
+    const handleLogout = () => {
 
         setUser(null);
 
+        // Clear shared data on logout
+        setMyListings([]);
+        setWishlist([]);
+
     };
 
-    return { user, loading, handleLogin, handleRegister  , handleLogout}
-}
+
+    return {
+
+        user,
+        loading,
+
+        handleLogin,
+        handleRegister,
+        handleLogout,
+
+        // Shared listings
+        myListings,
+        setMyListings,
+
+        // Shared wishlist
+        wishlist,
+        setWishlist
+    };
+};

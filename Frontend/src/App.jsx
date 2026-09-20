@@ -11,6 +11,7 @@ import Swap from "./Components/Swap"
 
 import { AuthProvider } from "./Context/auth.context"
 import MarketPlace from "./Pages/MarketPlace"
+import Wishlist from "./Components/Wishlist"
 
 
 const App = () => {
@@ -74,6 +75,14 @@ const App = () => {
        <>
        <Navbar/>
        <Swap/>
+      </>
+    },
+    {
+      path:"/wishlist",
+      element:
+      <>
+      <Navbar/>
+      <Wishlist/>
       </>
     }
   ])

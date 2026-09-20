@@ -3,6 +3,8 @@ import cors from "cors"
 import connectDB from "./DataBase/db.js";
 import itemRoutes from "./Routes/itemRoutes.js";
 import authRoutes from "./Routes/authRoutes.js"
+import wishlistRoutes from "./Routes/wishListRoutes.js";
+
 
 const app = express()
 const PORT = process.env.PORT || 3000;
@@ -26,6 +28,7 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/items",itemRoutes)
 app.use("/uploads", express.static("uploads"));
+app.use("/api/wishlist", wishlistRoutes);
 
 
 app.listen(PORT , ()=>{

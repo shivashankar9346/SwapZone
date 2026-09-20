@@ -8,16 +8,17 @@ import {
     getMyListings,
     getItemById
 } from "../Controllers/itemController.js";
+import authUser from "../Middleware/authUser.js";
 
 const router = express.Router();
 
-router.post("/", upload.single("image"), createItem);
+router.post("/",authUser, upload.single("image"), createItem);
 
 router.get("/", getAllItems);
 
-router.get("/my/:userId",getMyListings);
+router.get("/my/:userId", authUser, getMyListings);
 
-router.put("/:id", upload.single("image"), updateItems);
+router.put("/:id",authUser,  upload.single("image"), updateItems);
 
 router.get("/:id", getItemById);
 

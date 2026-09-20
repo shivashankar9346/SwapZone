@@ -101,6 +101,8 @@ const ItemList = () => {
         try {
             setLoading(true);
 
+            const token = localStorage.getItem("token");
+
             const formData = new FormData();
 
             formData.append("bookname", Data.bookname);
@@ -122,7 +124,10 @@ const ItemList = () => {
                 "http://localhost:3000/api/items",
                 {
                     method: "POST",
-                    body: formData
+                    body: formData,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
             );
 
