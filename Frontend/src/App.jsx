@@ -5,7 +5,7 @@ import Home from "./Pages/Home"
 import Register from "./Pages/register"
 import Login from "./Pages/Login"
 import ItemList from "./Pages/ItemList"
-import Dashboard from "./Pages/dashboard"
+import Dashboard from "./Pages/Dashboard"
 import MyListings from "./Components/MyListings"
 import Swap from "./Components/Swap"
 
