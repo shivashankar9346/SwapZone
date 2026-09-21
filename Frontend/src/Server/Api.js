@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const api = axios.create({
-    baseURL :"http://localhost:3000"
+    baseURL :"https://swapzone-lx5g.onrender.com"
 })
 
 export async function register( form) {
