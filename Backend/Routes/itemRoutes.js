@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../Middlewae/upload.js";
+import upload from "../Middleware/upload.js";
 
 import {
     createItem,

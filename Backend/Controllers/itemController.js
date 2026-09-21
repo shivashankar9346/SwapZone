@@ -1,5 +1,5 @@
 import express from "express"
-import item from "../Models/itemModel.js"
+import Item from "../Models/itemModel.js"
 
 // This is to create a new item
 export const createItem = async (req, res) => {
@@ -8,7 +8,7 @@ export const createItem = async (req, res) => {
         console.log("🔥 CREATE ITEM");
         console.log("BODY:", req.body);
 
-        const newItem = new item({
+        const newItem = new Item({
             bookname: req.body.bookname,
             description: req.body.description,
             price: Number(req.body.price),
@@ -74,7 +74,7 @@ export const getAllItems = async (req, res) => {
             filter.condition = condition;
         }
 
-        const getItems = await item.find(filter).sort({
+        const getItems = await Item.find(filter).sort({
             createdAt: -1
         });
 
@@ -102,7 +102,7 @@ export const getAllItems = async (req, res) => {
 export const updateItems = async (req,res) => {
     try {
 
-        const updateItem = await item.findByIdAndUpdate(
+        const updateItem = await Item.findByIdAndUpdate(
             req.params.id,
             req.body,
             {
@@ -142,7 +142,7 @@ export const getMyListings = async (req, res) => {
 
         const { userId } = req.params;
 
-        const items = await item.find({
+        const items = await Item.find({
             userId: userId
         }).sort({ createdAt: -1 });
 
@@ -168,7 +168,7 @@ export const getMyListings = async (req, res) => {
 export const getItemById = async (req, res) => {
     try {
 
-        const foundItem = await item.findById(req.params.id);
+        const foundItem = await Item.findById(req.params.id);
 
         if (!foundItem) {
             return res.status(404).json({

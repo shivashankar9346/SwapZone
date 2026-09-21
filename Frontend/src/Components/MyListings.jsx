@@ -90,7 +90,7 @@ const MyListings = () => {
                 <div className="listings-header">
 
                     <Link className="listingBack-button" to="/dashboard">
-                    Back
+                    ← Back 
                     </Link>
 
                     <div>

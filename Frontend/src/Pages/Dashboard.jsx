@@ -80,9 +80,9 @@ const Dashboard = () => {
                             </li>
 
                             <li>
-                                <Link to="/inquiries">
+                                <Link to="/EnquiriesAndOffers">
                                     <span>💬</span>
-                                    Inquiries & Offers
+                                    Enquiries&Offers
                                 </Link>
                             </li>
 

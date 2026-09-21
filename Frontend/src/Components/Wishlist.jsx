@@ -158,7 +158,7 @@ const Wishlist = () => {
                             className="back-dashboard-button"
                             onClick={() => navigate("/dashboard")}
                         >
-                            ← Back to Dashboard
+                            ← Back 
                         </button>
                     </div>
 

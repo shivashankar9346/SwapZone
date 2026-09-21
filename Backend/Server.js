@@ -4,6 +4,7 @@ import connectDB from "./DataBase/db.js";
 import itemRoutes from "./Routes/itemRoutes.js";
 import authRoutes from "./Routes/authRoutes.js"
 import wishlistRoutes from "./Routes/wishListRoutes.js";
+import requestRoutes from "./Routes/requestRoutes.js";
 
 
 const app = express()
@@ -29,6 +30,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/items",itemRoutes)
 app.use("/uploads", express.static("uploads"));
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/requests", requestRoutes);
 
 
 app.listen(PORT , ()=>{
