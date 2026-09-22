@@ -17,7 +17,7 @@ connectDB()
 app.use(cors({
      origin: [
             "http://localhost:5173",
-            "https://swapzone-1-r4yb.onrender.com"
+            "https://swapzone-1-z61x.onrender.com"
         ]
 }));
 app.use(express.json());
