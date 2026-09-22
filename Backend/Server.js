@@ -15,8 +15,10 @@ const PORT = process.env.PORT || 3000;
 connectDB()
 
 app.use(cors({
-    origin: "http://localhost:5173",
-    "https://swapzone-1-r4yb.onrender.com"
+     origin: [
+            "http://localhost:5173",
+            "https://swapzone-1-r4yb.onrender.com"
+        ]
 }));
 app.use(express.json());
 
