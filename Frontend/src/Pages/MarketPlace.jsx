@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import "./MarketPlace.css";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MarketPlace = () => {
 
     const navigate = useNavigate();
@@ -14,7 +16,7 @@ const MarketPlace = () => {
     const [error, setError] = useState("");
 
     // =========================
-    // GET ITEMS
+    // GET ALL ITEMS
     // =========================
 
     useEffect(() => {
@@ -24,10 +26,13 @@ const MarketPlace = () => {
             try {
 
                 setLoading(true);
+                setError("");
 
                 const response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/api/items`
+                    `${API_URL}/api/items`
                 );
+
+                console.log("ITEM API STATUS:", response.status);
 
                 if (!response.ok) {
                     throw new Error("Failed to fetch items");
@@ -35,13 +40,13 @@ const MarketPlace = () => {
 
                 const data = await response.json();
 
-                console.log("Items:", data);
+                console.log("ALL ITEMS:", data);
 
                 setItems(data.items || []);
 
             } catch (err) {
 
-                console.error(err);
+                console.error("❌ MARKETPLACE ERROR:", err);
 
                 setError("Unable to load items");
 
@@ -66,15 +71,42 @@ const MarketPlace = () => {
         const searchText = search.toLowerCase();
 
         const matchesSearch =
-            item.bookname?.toLowerCase().includes(searchText) ||
-            item.description?.toLowerCase().includes(searchText);
+            item.bookname
+                ?.toLowerCase()
+                .includes(searchText) ||
+            item.description
+                ?.toLowerCase()
+                .includes(searchText);
 
         const matchesCategory =
             category === "" ||
-            item.category?.toLowerCase() === category.toLowerCase();
+            item.category?.toLowerCase() ===
+                category.toLowerCase();
 
         return matchesSearch && matchesCategory;
     });
+
+
+    // =========================
+    // IMAGE URL
+    // =========================
+
+    const getImageUrl = (image) => {
+
+        if (!image) {
+            return null;
+        }
+
+        // If backend already returns complete URL
+        if (image.startsWith("http://") ||
+            image.startsWith("https://")) {
+
+            return image;
+        }
+
+        // Backend returns /uploads/filename
+        return `${API_URL}${image}`;
+    };
 
 
     // =========================
@@ -84,6 +116,7 @@ const MarketPlace = () => {
     return (
         <main className="marketplace-page">
 
+            {/* HEADER */}
 
             <section className="marketplace-header">
 
@@ -108,6 +141,7 @@ const MarketPlace = () => {
             </section>
 
 
+            {/* CONTROLS */}
 
             <section className="marketplace-controls">
 
@@ -169,6 +203,8 @@ const MarketPlace = () => {
             </section>
 
 
+            {/* RESULTS HEADER */}
+
             <div className="results-header">
 
                 <div>
@@ -184,28 +220,54 @@ const MarketPlace = () => {
                 </div>
 
                 <span className="item-count">
-                    {filteredItems.length} items
+                    {filteredItems.length}{" "}
+                    {filteredItems.length === 1
+                        ? "item"
+                        : "items"}
                 </span>
 
             </div>
 
 
+            {/* LOADING */}
 
             {loading && (
+
                 <div className="marketplace-message">
-                    <h2>Loading items...</h2>
-                    <p>Please wait while we fetch the latest listings.</p>
+
+                    <h2>
+                        Loading items...
+                    </h2>
+
+                    <p>
+                        Please wait while we fetch the latest listings.
+                    </p>
+
                 </div>
+
             )}
 
+
+            {/* ERROR */}
 
             {!loading && error && (
+
                 <div className="marketplace-message error-message">
-                    <h2>Something went wrong</h2>
-                    <p>{error}</p>
+
+                    <h2>
+                        Something went wrong
+                    </h2>
+
+                    <p>
+                        {error}
+                    </p>
+
                 </div>
+
             )}
 
+
+            {/* ITEMS */}
 
             {!loading && !error && (
 
@@ -213,77 +275,103 @@ const MarketPlace = () => {
 
                     {filteredItems.length > 0 ? (
 
-                        filteredItems.map((item) => (
+                        filteredItems.map((item) => {
 
-                            <div
-                                className="marketplace-card"
-                                key={item._id}
-                            >
+                            const imageUrl = getImageUrl(item.image);
 
-                                {/* IMAGE */}
+                            console.log(
+                                "🖼️ ITEM IMAGE:",
+                                item.bookname,
+                                item.image,
+                                "→",
+                                imageUrl
+                            );
 
-                                <div className="marketplace-image">
+                            return (
 
-                                    {item.image ? (
+                                <div
+                                    className="marketplace-card"
+                                    key={item._id}
+                                >
 
-                                        <img
-                                            src={
-                                                item.image.startsWith("http")
-                                                    ? item.image
-                                                    : `${import.meta.env.VITE_API_URL}${item.image}`
-                                            }
-                                            alt={item.bookname}
-                                        />
+                                    {/* IMAGE */}
 
-                                    ) : (
+                                    <div className="marketplace-image">
 
-                                        <div className="no-image">
-                                            📦
+                                        {imageUrl ? (
+
+                                            <img
+                                                src={imageUrl}
+                                                alt={item.bookname}
+                                                onError={(e) => {
+
+                                                    console.error(
+                                                        "❌ IMAGE FAILED:",
+                                                        imageUrl
+                                                    );
+
+                                                    e.currentTarget.style.display =
+                                                        "none";
+                                                }}
+                                            />
+
+                                        ) : (
+
+                                            <div className="no-image">
+                                                📦
+                                            </div>
+
+                                        )}
+
+                                        <span className="condition-badge">
+                                            {item.condition}
+                                        </span>
+
+                                    </div>
+
+
+                                    {/* CONTENT */}
+
+                                    <div className="marketplace-card-content">
+
+                                        <span className="item-category">
+                                            {item.category}
+                                        </span>
+
+                                        <h3>
+                                            {item.bookname}
+                                        </h3>
+
+                                        <p>
+                                            {item.description}
+                                        </p>
+
+
+                                        <div className="item-details">
+
+                                            <strong>
+                                                ₹{item.price}
+                                            </strong>
+
+                                            <button
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/swap/${item._id}`
+                                                    )
+                                                }
+                                            >
+                                                Swap
+                                            </button>
+
                                         </div>
-
-                                    )}
-
-                                    <span className="condition-badge">
-                                        {item.condition}
-                                    </span>
-
-                                </div>
-
-
-                                {/* CONTENT */}
-
-                                <div className="marketplace-card-content">
-
-                                    <span className="item-category">
-                                        {item.category}
-                                    </span>
-
-                                    <h3>
-                                        {item.bookname}
-                                    </h3>
-
-                                    <p>
-                                        {item.description}
-                                    </p>
-
-
-                                    <div className="item-details">
-
-                                        <strong>
-                                            ₹{item.price}
-                                        </strong>
-
-                                        <button onClick={() => navigate(`/swap/${item._id}`)}>
-                                            Swap
-                                        </button>
 
                                     </div>
 
                                 </div>
 
-                            </div>
+                            );
 
-                        ))
+                        })
 
                     ) : (
 
