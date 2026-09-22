@@ -16,11 +16,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
     cors({
-     origin: [
+        origin: [
             "http://localhost:5173",
             "https://swapzone-1-z61x.onrender.com"
-        ]
-})
+        ],
+        credentials: true
+    })
 );
 app.use(express.json());
 
