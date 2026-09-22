@@ -4,19 +4,22 @@ import { useAuth } from "../Context/UserContext";
 import "./Wishlist.css";
 
 const Wishlist = () => {
-
     const navigate = useNavigate();
-    const {wishlist,setWishlist} = useAuth();
+    const { wishlist, setWishlist } = useAuth();
 
-  
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const API_URL = import.meta.env.VITE_API_URL;
 
-    // Get wishlist from backend
+    // =========================================
+    // GET WISHLIST
+    // =========================================
+
     const getWishlist = async () => {
-
         try {
+            setLoading(true);
+            setError("");
 
             const token = localStorage.getItem("token");
 
@@ -26,12 +29,12 @@ const Wishlist = () => {
             }
 
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/wishlist`,
+                `${API_URL}/api/wishlist`,
                 {
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 
@@ -43,42 +46,48 @@ const Wishlist = () => {
                 );
             }
 
-            setWishlist(data.wishlist || []);
+            /*
+             * Remove wishlist records whose item
+             * has already been deleted.
+             */
+            const validWishlist = (data.wishlist || []).filter(
+                (wishlistItem) => wishlistItem?.item
+            );
+
+            setWishlist(validWishlist);
 
         } catch (err) {
-
-            console.error(err);
-            setError(err.message);
-
+            console.error("❌ GET WISHLIST ERROR:", err);
+            setError(err.message || "Failed to load wishlist");
         } finally {
-
             setLoading(false);
-
         }
     };
 
-
     useEffect(() => {
-
         getWishlist();
-
     }, []);
 
+    // =========================================
+    // REMOVE FROM WISHLIST
+    // =========================================
 
-    // Remove item from wishlist
     const removeFromWishlist = async (itemId) => {
-
         try {
-
             const token = localStorage.getItem("token");
 
+            if (!token) {
+                navigate("/login");
+                return;
+            }
+
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/api/wishlist/${itemId}`,
+                `${API_URL}/api/wishlist/${itemId}`,
                 {
                     method: "DELETE",
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 
@@ -90,47 +99,46 @@ const Wishlist = () => {
                 );
             }
 
-            // Remove from UI immediately
-            setWishlist(
-                wishlist.filter(item => item._id !== itemId)
+            // Remove immediately from UI
+            setWishlist((previousWishlist) =>
+                previousWishlist.filter(
+                    (wishlistItem) =>
+                        wishlistItem?.item?._id !== itemId
+                )
             );
 
         } catch (err) {
-
-            console.error(err);
+            console.error("❌ REMOVE WISHLIST ERROR:", err);
             alert(err.message);
-
         }
     };
 
+    // =========================================
+    // LOADING
+    // =========================================
 
     if (loading) {
-
         return (
             <div className="wishlist-page">
-
                 <div className="wishlist-loading">
-
                     <h2>Loading Wishlist...</h2>
 
                     <p>
                         Please wait while we fetch your saved items.
                     </p>
-
                 </div>
-
             </div>
         );
     }
 
+    // =========================================
+    // ERROR
+    // =========================================
 
     if (error) {
-
         return (
             <div className="wishlist-page">
-
                 <div className="wishlist-error">
-
                     <h2>Something went wrong</h2>
 
                     <p>{error}</p>
@@ -138,34 +146,34 @@ const Wishlist = () => {
                     <button onClick={getWishlist}>
                         Try Again
                     </button>
-
                 </div>
-
             </div>
         );
     }
 
+    // =========================================
+    // MAIN UI
+    // =========================================
 
     return (
-
         <div className="wishlist-page">
 
             <div className="wishlist-container">
 
+                {/* HEADER */}
+
                 <div className="wishlist-header">
+
                     <div>
-                         <button
+                        <button
                             className="back-dashboard-button"
                             onClick={() => navigate("/dashboard")}
                         >
-                            ← Back 
+                            ← Back
                         </button>
                     </div>
 
-
                     <div className="Wishlist-headers">
-
-                       
 
                         <span className="wishlist-label">
                             MY COLLECTION
@@ -180,14 +188,18 @@ const Wishlist = () => {
                     </div>
 
                     <div className="wishlist-count">
+
                         {wishlist.length}{" "}
+
                         {wishlist.length === 1
                             ? "Item"
                             : "Items"}
+
                     </div>
 
                 </div>
 
+                {/* EMPTY WISHLIST */}
 
                 {wishlist.length === 0 ? (
 
@@ -197,7 +209,9 @@ const Wishlist = () => {
                             ♡
                         </div>
 
-                        <h2>Your wishlist is empty</h2>
+                        <h2>
+                            Your wishlist is empty
+                        </h2>
 
                         <p>
                             Save items you like and they'll
@@ -205,7 +219,9 @@ const Wishlist = () => {
                         </p>
 
                         <button
-                            onClick={() => navigate("/marketplace")}
+                            onClick={() =>
+                                navigate("/market-place")
+                            }
                         >
                             Explore Items
                         </button>
@@ -217,6 +233,16 @@ const Wishlist = () => {
                     <div className="wishlist-grid">
 
                         {wishlist.map((wishlistItem) => {
+
+                            /*
+                             * Safety check.
+                             *
+                             * If the item was deleted from
+                             * the database, item will be null.
+                             */
+                            if (!wishlistItem?.item) {
+                                return null;
+                            }
 
                             const item = wishlistItem.item;
 
@@ -231,14 +257,21 @@ const Wishlist = () => {
                                     <div className="wishlist-image">
 
                                         {item.image ? (
+
                                             <img
-                                                src={`${import.meta.env.VITE_API_URL}${item.image}`}
-                                                alt={item.bookname}
+                                                src={`${API_URL}${item.image}`}
+                                                alt={
+                                                    item.bookname ||
+                                                    "Wishlist item"
+                                                }
                                             />
+
                                         ) : (
+
                                             <div className="no-image">
                                                 📦
                                             </div>
+
                                         )}
 
                                     </div>
@@ -257,7 +290,9 @@ const Wishlist = () => {
                                             <button
                                                 className="remove-button"
                                                 onClick={() =>
-                                                    removeFromWishlist(item._id)
+                                                    removeFromWishlist(
+                                                        item._id
+                                                    )
                                                 }
                                             >
                                                 ♥
@@ -304,7 +339,8 @@ const Wishlist = () => {
                                             </span>
 
                                             <strong>
-                                                {item.userId?.name || "Unknown seller"}
+                                                {item.userId?.name ||
+                                                    "Unknown seller"}
                                             </strong>
 
                                         </div>
@@ -315,7 +351,9 @@ const Wishlist = () => {
                                         <button
                                             className="view-item-button"
                                             onClick={() =>
-                                                navigate(`/swap/${item._id}`)
+                                                navigate(
+                                                    `/swap/${item._id}`
+                                                )
                                             }
                                         >
                                             View Item

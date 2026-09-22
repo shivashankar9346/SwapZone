@@ -6,33 +6,14 @@ import {
     getAllItems,
     updateItems,
     getMyListings,
-    getItemById
+    getItemById,
+    deleteItem
 } from "../Controllers/itemController.js";
 import authUser from "../Middleware/authUser.js";
 
 const router = express.Router();
 
-router.post(
-    "/",
-    authUser,
-
-    (req, res, next) => {
-        console.log("🔥 AUTH MIDDLEWARE PASSED");
-        console.log("REQ.USER:", req.user);
-        next();
-    },
-
-    upload.single("image"),
-
-    (req, res, next) => {
-        console.log("🔥 MULTER PASSED");
-        console.log("REQ.FILE:", req.file);
-        console.log("REQ.BODY:", req.body);
-        next();
-    },
-
-    createItem
-);
+router.post( "/", authUser, upload.single("image"), createItem);
 
 router.get("/", getAllItems);
 
@@ -40,7 +21,10 @@ router.get("/my/:userId", authUser, getMyListings);
 
 router.put("/:id",authUser,  upload.single("image"), updateItems);
 
+router.delete("/:id", authUser, deleteItem);
+
 router.get("/:id", getItemById);
+
 
 
 export default router;

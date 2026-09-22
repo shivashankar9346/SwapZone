@@ -5,10 +5,70 @@ import "./MyListings.css";
 
 const MyListings = () => {
 
-    const {user,myListings: userData,setMyListings} = useAuth();
+    const { user, myListings: userData, setMyListings } = useAuth();
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
+
+    const handleDelete = async (itemId) => {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this listing?"
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                setError("Please login again");
+                return;
+            }
+
+            console.log("🗑️ Deleting item:", itemId);
+
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/api/items/${itemId}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            const data = await response.json();
+
+            console.log("📡 Delete response:", response.status);
+            console.log("📨 Delete data:", data);
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message || "Failed to delete item"
+                );
+            }
+
+            // Remove deleted item immediately from UI
+            setMyListings((previousItems) =>
+                previousItems.filter(
+                    (item) => item._id !== itemId
+                )
+            );
+
+            alert("Listing deleted successfully!");
+
+        } catch (err) {
+
+            console.error("❌ DELETE ERROR:", err);
+
+            alert(err.message || "Failed to delete item");
+        }
+    };
 
     useEffect(() => {
 
@@ -90,7 +150,7 @@ const MyListings = () => {
                 <div className="listings-header">
 
                     <Link className="listingBack-button" to="/dashboard">
-                    ← Back 
+                        ← Back
                     </Link>
 
                     <div>
@@ -99,17 +159,17 @@ const MyListings = () => {
                         <p>
                             Manage the items you have posted on SwapZone.
                         </p>
-                    
+
                     </div>
 
-                      <div className="listing-count">
+                    <div className="listing-count">
                         {userData.length}{" "}
                         {userData.length === 1 ? "Item" : "Items"}
                     </div>
-                  
+
 
                 </div>
-                
+
 
 
                 {userData.length > 0 ? (
@@ -126,7 +186,7 @@ const MyListings = () => {
                                 {item.image ? (
 
                                     <img
-                                        src={`http://localhost:3000${item.image}`}
+                                        src={`${import.meta.env.VITE_API_URL}${item.image}`}
                                         alt={item.bookname}
                                     />
 
@@ -174,10 +234,12 @@ const MyListings = () => {
 
                                 <div className="listing-actions">
 
-                                    <button className="delete-btn">
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() => handleDelete(item._id)}
+                                    >
                                         Delete
                                     </button>
-
                                 </div>
 
                             </div>

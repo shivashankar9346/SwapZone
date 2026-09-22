@@ -10,16 +10,20 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
         const timer = setTimeout(() => {
             setLoading(false);
         }, 1000);
 
         return () => clearTimeout(timer);
+
     }, []);
+
 
     // ================= LOADING =================
 
     if (loading) {
+
         return (
             <div className="dashboard-loading">
 
@@ -31,23 +35,29 @@ const Dashboard = () => {
 
             </div>
         );
+
     }
 
+
     return (
+
         <div className="dashboard-page">
 
             <div className="dashboard-container">
 
+
+                {/* ================= PROFILE ================= */}
+
                 <div className="profile-card">
 
                     <div className="profile-avatar">
-                        {user.name.charAt(0).toUpperCase()}
+                        {user?.name?.charAt(0).toUpperCase()}
                     </div>
 
                     <div className="profile-info">
 
                         <h1>
-                            Hi, {user.name}
+                            Hi, {user?.name}
                         </h1>
 
                         <p>
@@ -57,15 +67,15 @@ const Dashboard = () => {
                         <div className="user-details">
 
                             <span>
-                                📍 {user.campusorhostel}
+                                📍 {user?.campusorhostel}
                             </span>
 
                             <span>
-                                ✉️ {user.email}
+                                ✉️ {user?.email}
                             </span>
 
                             <span>
-                                🎓 {user.branch}
+                                🎓 {user?.branch}
                             </span>
 
                         </div>
@@ -75,7 +85,12 @@ const Dashboard = () => {
                 </div>
 
 
+                {/* ================= CONTENT ================= */}
+
                 <div className="dashboard-content">
+
+
+                    {/* ================= SIDEBAR ================= */}
 
                     <div className="dashboard-sidebar">
 
@@ -84,7 +99,10 @@ const Dashboard = () => {
                         <ul>
 
                             <li>
-                                <Link to="/dashboard" className="active">
+                                <Link
+                                    to="/dashboard"
+                                    className="active"
+                                >
                                     <span>▣</span>
                                     Overview
                                 </Link>
@@ -107,7 +125,7 @@ const Dashboard = () => {
                             <li>
                                 <Link to="/EnquiriesAndOffers">
                                     <span>💬</span>
-                                    Enquiries&Offers
+                                    Enquiries & Offers
                                 </Link>
                             </li>
 
@@ -116,11 +134,17 @@ const Dashboard = () => {
                     </div>
 
 
+                    {/* ================= MAIN ================= */}
+
                     <div className="dashboard-main">
+
+
+                        {/* ================= WELCOME ================= */}
 
                         <div className="welcome-card">
 
                             <div>
+
                                 <h2>
                                     Welcome to SwapZone 👋
                                 </h2>
@@ -129,6 +153,7 @@ const Dashboard = () => {
                                     Start buying, selling and swapping
                                     items with students on your campus.
                                 </p>
+
                             </div>
 
                             <Link
@@ -141,7 +166,10 @@ const Dashboard = () => {
                         </div>
 
 
+                        {/* ================= STATS ================= */}
+
                         <div className="stats-container">
+
 
                             <div className="stat-card">
 
@@ -150,14 +178,18 @@ const Dashboard = () => {
                                 </div>
 
                                 <div>
+
                                     <h3>
-                                        {myListings.length}{" "}
-                                        {myListings.length === 1
+                                        {myListings?.length || 0}{" "}
+                                        {(myListings?.length || 0) === 1
                                             ? "Item"
                                             : "Items"}
                                     </h3>
 
-                                    <p>My Listings</p>
+                                    <p>
+                                        My Listings
+                                    </p>
+
                                 </div>
 
                             </div>
@@ -170,14 +202,18 @@ const Dashboard = () => {
                                 </div>
 
                                 <div>
+
                                     <h3>
-                                        {wishlist.length}{" "}
-                                        {wishlist.length === 1
+                                        {wishlist?.length || 0}{" "}
+                                        {(wishlist?.length || 0) === 1
                                             ? "Item"
                                             : "Items"}
                                     </h3>
 
-                                    <p>Wishlist</p>
+                                    <p>
+                                        Wishlist
+                                    </p>
+
                                 </div>
 
                             </div>
@@ -190,50 +226,180 @@ const Dashboard = () => {
                                 </div>
 
                                 <div>
-                                    <h3>0</h3>
-                                    <p>Offers</p>
+
+                                    <h3>
+                                        0
+                                    </h3>
+
+                                    <p>
+                                        Offers
+                                    </p>
+
                                 </div>
 
                             </div>
+
 
                         </div>
 
 
-                        <div className="activity-card">
+                        {/* ================= QUICK ACTIONS ================= */}
 
-                            <div className="activity-header">
+                        <div className="quick-actions-card">
 
-                                <h2>Recent Activity</h2>
+                            <div className="quick-actions-header">
 
-                                <Link to="/my-listings">
-                                    View all
-                                </Link>
+                                <div>
+
+                                    <span className="section-label">
+                                        GET STARTED
+                                    </span>
+
+                                    <h2>
+                                        What would you like to do?
+                                    </h2>
+
+                                    <p>
+                                        Explore the marketplace or manage
+                                        your items from one place.
+                                    </p>
+
+                                </div>
 
                             </div>
 
-                            <div className="empty-state">
 
-                                <div className="empty-icon">
-                                    📦
-                                </div>
+                            <div className="quick-actions-grid">
 
-                                <h3>No listings yet</h3>
 
-                                <p>
-                                    You haven't posted anything yet.
-                                    Start by adding your first item.
-                                </p>
+                                {/* ADD ITEM */}
 
                                 <Link
                                     to="/add-item"
-                                    className="empty-btn"
+                                    className="quick-action"
                                 >
-                                    Create Listing
+
+                                    <div className="quick-action-icon">
+                                        +
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            Add an Item
+                                        </h3>
+
+                                        <p>
+                                            Sell or swap something with
+                                            students on your campus.
+                                        </p>
+
+                                    </div>
+
+                                    <span className="quick-action-arrow">
+                                        →
+                                    </span>
+
                                 </Link>
+
+
+                                {/* MARKETPLACE */}
+
+                                <Link
+                                    to="/market-place"
+                                    className="quick-action"
+                                >
+
+                                    <div className="quick-action-icon">
+                                        🛍
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            Browse Marketplace
+                                        </h3>
+
+                                        <p>
+                                            Find books, electronics and
+                                            other useful items.
+                                        </p>
+
+                                    </div>
+
+                                    <span className="quick-action-arrow">
+                                        →
+                                    </span>
+
+                                </Link>
+
+
+                                {/* WISHLIST */}
+
+                                <Link
+                                    to="/wishlist"
+                                    className="quick-action"
+                                >
+
+                                    <div className="quick-action-icon">
+                                        ♡
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            View Wishlist
+                                        </h3>
+
+                                        <p>
+                                            Check the items you've saved
+                                            for later.
+                                        </p>
+
+                                    </div>
+
+                                    <span className="quick-action-arrow">
+                                        →
+                                    </span>
+
+                                </Link>
+
+
+                                {/* ENQUIRIES */}
+
+                                <Link
+                                    to="/EnquiriesAndOffers"
+                                    className="quick-action"
+                                >
+
+                                    <div className="quick-action-icon">
+                                        💬
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            Enquiries & Offers
+                                        </h3>
+
+                                        <p>
+                                            Manage your sent and received
+                                            requests.
+                                        </p>
+
+                                    </div>
+
+                                    <span className="quick-action-arrow">
+                                        →
+                                    </span>
+
+                                </Link>
+
 
                             </div>
 
                         </div>
+
 
                     </div>
 
@@ -246,3 +412,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

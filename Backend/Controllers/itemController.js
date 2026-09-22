@@ -191,3 +191,48 @@ export const getItemById = async (req, res) => {
         });
     }
 };
+
+
+
+export const deleteItem = async (req, res) => {
+    try {
+
+        const itemId = req.params.id;
+
+        console.log("🗑️ DELETE ITEM:", itemId);
+        console.log("👤 REQUEST USER:", req.user.id);
+
+        const item = await Item.findById(itemId);
+
+        if (!item) {
+            return res.status(404).json({
+                message: "Item not found"
+            });
+        }
+
+        // Make sure only the owner can delete the item
+        if (item.userId.toString() !== req.user.id.toString()) {
+            return res.status(403).json({
+                message: "You are not allowed to delete this item"
+            });
+        }
+
+        await Item.findByIdAndDelete(itemId);
+
+        console.log("✅ ITEM DELETED:", itemId);
+
+        res.status(200).json({
+            message: "Item deleted successfully",
+            itemId: itemId
+        });
+
+    } catch (err) {
+
+        console.error("❌ DELETE ITEM ERROR:", err);
+
+        res.status(500).json({
+            message: "Failed to delete item",
+            error: err.message
+        });
+    }
+};

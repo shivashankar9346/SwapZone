@@ -696,3 +696,195 @@
         transform: rotate(360deg);
     }
 }
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.quick-actions-card {
+    margin-top: 24px;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 18px;
+}
+
+.quick-actions-header {
+    margin-bottom: 24px;
+}
+
+.section-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #f59e0b;
+}
+
+.quick-actions-header h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: #222222;
+}
+
+.quick-actions-header p {
+    margin: 0;
+    color: #777777;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   QUICK ACTION GRID
+========================================= */
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+
+/* =========================================
+   QUICK ACTION CARD
+========================================= */
+
+.quick-action {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    padding: 20px;
+
+    text-decoration: none;
+
+    background: #fafafa;
+
+    border: 1px solid #eeeeee;
+    border-radius: 14px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.quick-action:hover {
+    transform: translateY(-3px);
+
+    border-color: #f59e0b;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.quick-action-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff4df;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    color: #f59e0b;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.quick-action h3 {
+    margin: 0 0 5px;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #222222;
+}
+
+.quick-action p {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    color: #777777;
+
+    padding-right: 20px;
+}
+
+
+/* =========================================
+   ARROW
+========================================= */
+
+.quick-action-arrow {
+    margin-left: auto;
+
+    font-size: 20px;
+
+    color: #aaaaaa;
+
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.quick-action:hover .quick-action-arrow {
+    color: #f59e0b;
+    transform: translateX(4px);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .quick-actions-card {
+        padding: 20px;
+    }
+
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .quick-actions-header h2 {
+        font-size: 20px;
+    }
+
+    .quick-action {
+        padding: 16px;
+    }
+
+    .quick-action-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+
+}
