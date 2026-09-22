@@ -31,7 +31,7 @@ const Swap = () => {
             try {
 
                 const response = await fetch(
-                    `http://localhost:3000/api/items/${id}`
+                    `${import.meta.env.VITE_API_URL}/api/items/${id}`
                 );
 
                 const data = await response.json();
@@ -78,7 +78,7 @@ const Swap = () => {
             if (!favorite) {
 
                 const response = await fetch(
-                    `http://localhost:3000/api/wishlist/${id}`,
+                    `${import.meta.env.VITE_API_URL}/api/wishlist/${id}`,
                     {
                         method: "POST",
                         headers: {
@@ -98,7 +98,7 @@ const Swap = () => {
             } else {
 
                 const response = await fetch(
-                    `http://localhost:3000/api/wishlist/${id}`,
+                    `${import.meta.env.VITE_API_URL}/api/wishlist/${id}`,
                     {
                         method: "DELETE",
                         headers: {
@@ -161,7 +161,7 @@ const Swap = () => {
             }
 
             const response = await fetch(
-                `http://localhost:3000/api/requests/buy/${id}`,
+                `${import.meta.env.VITE_API_URL}/api/requests/buy/${id}`,
                 {
                     method: "POST",
 
@@ -224,7 +224,7 @@ const Swap = () => {
             }
 
             const response = await fetch(
-                `http://localhost:3000/api/requests/swap/${id}`,
+                `${import.meta.env.VITE_API_URL}/api/requests/swap/${id}`,
                 {
                     method: "POST",
 

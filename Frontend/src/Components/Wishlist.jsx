@@ -26,7 +26,7 @@ const Wishlist = () => {
             }
 
             const response = await fetch(
-                "http://localhost:3000/api/wishlist",
+                `${import.meta.env.VITE_API_URL}/api/wishlist`,
                 {
                     method: "GET",
                     headers: {
@@ -73,7 +73,7 @@ const Wishlist = () => {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:3000/api/wishlist/${itemId}`,
+                `${import.meta.env.VITE_API_URL}/api/wishlist/${itemId}`,
                 {
                     method: "DELETE",
                     headers: {

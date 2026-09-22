@@ -41,6 +41,7 @@ export const useAuth = () => {
         } catch (err) {
 
             console.log(err);
+            throw err;
 
         } finally {
 

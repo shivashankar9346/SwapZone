@@ -100,7 +100,7 @@ export const loginUser = async (req, res) => {
             });
         
         }
-
+console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
            // Create JWT token
         const token = jwt.sign(
             { id: user._id },

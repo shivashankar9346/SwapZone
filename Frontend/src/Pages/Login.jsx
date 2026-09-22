@@ -77,37 +77,6 @@ const Login = () => {
          );
     }
 
-    // try{
-
-
-    // const storedUser = localStorage.getItem("SwapZoneUser")
-
-    // const user = JSON.parse(storedUser);
-
-    // if(!storedUser){
-
-    //     setError("User is not registered. Please register first.")
-    //   return  
-    // }
-
-    // if(
-    //   formData.email == user.email &&
-    //   formData.password == user.password
-    // ){
-    //   localStorage.setItem("SwapZoneLoggedIn",true)
-
-    //    navigate("/")
-    // }else{
-    //   setError("Invalid email or password")
-    // }
-
-    // }
-    // catch(err){
-    //   setError("Something went wrong. Please try again.")
-    // }finally{
-    //   setLoading(false)
-    // }
-
   }
 
   if (loading) {

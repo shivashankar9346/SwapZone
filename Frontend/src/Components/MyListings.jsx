@@ -33,7 +33,7 @@ const MyListings = () => {
                 }
 
                 const response = await fetch(
-                    `http://localhost:3000/api/items/my/${user.id}`,
+                    `${import.meta.env.VITE_API_URL}/api/items/my/${user.id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
