@@ -121,7 +121,7 @@ const ItemList = () => {
             console.log("📦 Sending FormData");
 
             const response = await fetch(
-                "http://localhost:3000/api/items",
+            `${import.meta.env.VITE_API_URL}/api/items`,
                 {
                     method: "POST",
                     body: formData,
