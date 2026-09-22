@@ -192,7 +192,7 @@ const Swap = () => {
             setMessage("");
 
             // Go to enquiries page
-            navigate("/enquiries-and-offers");
+            navigate("/EnquiriesAndOffers");
 
         } catch (error) {
 
