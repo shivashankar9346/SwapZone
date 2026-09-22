@@ -2,7 +2,7 @@
 import {createBrowserRouter , RouterProvider} from "react-router-dom"
 import Navbar from "./Components/Navbar"
 import Home from "./Pages/Home"
-import Register from "./Pages/register"
+import Register from "./Pages/Register"
 import Login from "./Pages/Login"
 import ItemList from "./Pages/ItemList"
 import Dashboard from "./Pages/Dashboard"
