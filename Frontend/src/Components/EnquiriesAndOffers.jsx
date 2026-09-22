@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./EnquiriesAndOffers.css";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://swapzone-t5nu.onrender.com";
 
 const EnquiriesAndOffers = () => {
 
