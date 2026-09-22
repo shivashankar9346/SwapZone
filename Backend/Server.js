@@ -39,6 +39,19 @@ app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/requests", requestRoutes);
 
 
+app.use((err, req, res, next) => {
+    console.error("🔥🔥 GLOBAL ERROR 🔥🔥");
+    console.error("ERROR NAME:", err.name);
+    console.error("ERROR MESSAGE:", err.message);
+    console.error("ERROR STACK:", err.stack);
+
+    res.status(500).json({
+        success: false,
+        message: err.message
+    });
+});
+
+
 const startServer = async () => {
 
     try {

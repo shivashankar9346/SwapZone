@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import "./ItemList.css"
-import { useNavigate, Navigate } from 'react-router-dom'
+import React, { useState } from "react";
+import "./ItemList.css";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/UserContext";
 
-const ItemList = () => {
+const API_URL = import.meta.env.VITE_API_URL;
 
+const ItemList = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    const [error, setError] = useState("")
-    const [errors, setErrors] = useState({})
-    const [loading, setLoading] = useState(false)
-
+    const [error, setError] = useState("");
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const [Data, setData] = useState({
         bookname: "",
@@ -20,17 +20,21 @@ const ItemList = () => {
         category: "",
         condition: "",
         image: null
-    })
+    });
+
+    // ================================
+    // VALIDATION
+    // ================================
 
     const validateData = () => {
-
         const e = {};
+
         if (!Data.bookname.trim()) {
-            e.bookname = "Bookname is required"
+            e.bookname = "Book name is required";
         }
 
         if (!Data.description.trim()) {
-            e.description = "Description is required"
+            e.description = "Description is required";
         }
 
         if (!Data.price) {
@@ -39,35 +43,34 @@ const ItemList = () => {
             e.price = "Price cannot be negative";
         }
 
-        if (!Data.category.trim()) {
-            e.category = "Category is required"
+        if (!Data.category) {
+            e.category = "Category is required";
         }
 
-        if (!Data.condition.trim()) {
-            e.condition = "condition is required"
+        if (!Data.condition) {
+            e.condition = "Condition is required";
         }
 
         if (!Data.image) {
-            e.image = "Image is required"
+            e.image = "Image is required";
         }
-        setErrors(e)
+
+        setErrors(e);
 
         return Object.keys(e).length === 0;
-
-    }
+    };
 
 
     const handleForm = (e) => {
-
         const { name, value, files } = e.target;
 
         if (name === "image") {
-
             setData((previousData) => ({
                 ...previousData,
-                image: files && files.length > 0
-                    ? files[0]
-                    : null
+                image:
+                    files && files.length > 0
+                        ? files[0]
+                        : null
             }));
 
             return;
@@ -83,84 +86,167 @@ const ItemList = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("🔥 SUBMIT BUTTON CLICKED");
+        console.log("🔥 FORM SUBMIT EVENT FIRED");
         console.log("Current Data:", Data);
 
         setError("");
 
+        // Check API URL
+        if (!API_URL) {
+            setError("VITE_API_URL is not configured.");
+            console.error(
+                "❌ VITE_API_URL is undefined. Check your Render environment variable."
+            );
+            return;
+        }
+
+        // Check token
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Please login first.");
+            navigate("/login");
+            return;
+        }
+
+        // Validate
         const isValid = validateData();
 
         console.log("Validation result:", isValid);
-        console.log("Validation errors:", errors);
 
         if (!isValid) {
-            console.log("❌ Validation failed");
+            console.log("❌ Validation failed:", errors);
             return;
         }
 
         try {
             setLoading(true);
 
-            const token = localStorage.getItem("token");
-
+  
             const formData = new FormData();
 
-            formData.append("bookname", Data.bookname);
-            formData.append("description", Data.description);
+            formData.append("bookname", Data.bookname.trim());
+            formData.append(
+                "description",
+                Data.description.trim()
+            );
             formData.append("price", Data.price);
             formData.append("category", Data.category);
             formData.append("condition", Data.condition);
-            if (user?.id) {
-                formData.append("userId", user.id);
-            }
 
             if (Data.image) {
                 formData.append("image", Data.image);
             }
 
-            console.log("📦 Sending FormData");
+            // Debug FormData
+            console.log("📦 FormData:");
 
-            const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/items`,
-                {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-
-            console.log("📡 Response received:", response.status);
-
-            const result = await response.json();
-
-            console.log("📨 Backend response:", result);
-
-            if (!response.ok) {
-                throw new Error(
-                    result.message || "Posting failed"
+            for (const [key, value] of formData.entries()) {
+                console.log(
+                    key,
+                    value instanceof File
+                        ? value.name
+                        : value
                 );
             }
 
-            console.log("✅ ITEM CREATED:", result.item);
+            console.log("🌐 API URL:", API_URL);
+            console.log(
+                "📡 POST:",
+                `${API_URL}/api/items`
+            );
 
-            alert("Listing posted successfully!");
+
+            const response = await fetch(
+                `${API_URL}/api/items`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+
+                    body: formData
+                }
+            );
+
+            console.log(
+                "📡 Response Status:",
+                response.status
+            );
+
+            console.log(
+                "📡 Response Content-Type:",
+                response.headers.get("content-type")
+            );
+
+            const contentType =
+                response.headers.get("content-type") || "";
+
+            let result;
+
+            if (contentType.includes("application/json")) {
+                result = await response.json();
+            } else {
+                const text = await response.text();
+
+                console.error(
+                    "❌ Server returned non-JSON response:"
+                );
+
+                console.error(text);
+
+                throw new Error(
+                    `Server returned ${response.status}. Check Render backend logs.`
+                );
+            }
+
+            console.log(
+                "📨 Backend response:",
+                result
+            );
+
+            // ================================
+            // HANDLE ERROR
+            // ================================
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message ||
+                    "Failed to create listing"
+                );
+            }
+
+            // ================================
+            // SUCCESS
+            // ================================
+
+            console.log(
+                "✅ ITEM CREATED:",
+                result.item
+            );
+
+            alert(
+                "Listing posted successfully!"
+            );
 
             navigate("/my-listings");
 
         } catch (err) {
+            console.error(
+                "❌ POST ITEM ERROR:",
+                err
+            );
 
-            console.error("❌ POST ERROR:", err);
-
-            setError(err.message || "Posting failed");
+            setError(
+                err.message ||
+                "Failed to post listing"
+            );
 
         } finally {
-
             setLoading(false);
         }
     };
-
 
     return (
         <div className="item-page">
@@ -169,60 +255,111 @@ const ItemList = () => {
 
                 <div className="item-header">
                     <h2>Create New Listing</h2>
-                    <p>Sell or swap an item with students on your campus.</p>
+
+                    <p>
+                        Sell or swap an item with
+                        students on your campus.
+                    </p>
                 </div>
 
+                {/* ERROR */}
 
-                <form className="item-form" onSubmit={handleSubmit}>
+                {error && (
+                    <div className="form-error">
+                        {error}
+                    </div>
+                )}
+
+                <form
+                    className="item-form"
+                    onSubmit={handleSubmit}
+                >
+
+                    {/* TITLE */}
 
                     <div className="form-group">
 
-                        <label>Title</label>
+                        <label>
+                            Title
+                        </label>
 
                         <input
                             type="text"
                             name="bookname"
+                            value={Data.bookname}
                             onChange={handleForm}
                             placeholder="e.g. Engineering Mathematics Book"
                         />
 
+                        {errors.bookname && (
+                            <small>
+                                {errors.bookname}
+                            </small>
+                        )}
+
                     </div>
 
+                    {/* DESCRIPTION */}
 
                     <div className="form-group">
 
-                        <label>Description</label>
+                        <label>
+                            Description
+                        </label>
 
                         <textarea
-                            name='description'
+                            name="description"
+                            value={Data.description}
                             onChange={handleForm}
                             placeholder="Describe your item..."
-                        ></textarea>
+                        />
+
+                        {errors.description && (
+                            <small>
+                                {errors.description}
+                            </small>
+                        )}
 
                     </div>
 
+                    {/* PRICE + CATEGORY */}
 
                     <div className="form-row">
 
                         <div className="form-group">
 
-                            <label>Price</label>
+                            <label>
+                                Price
+                            </label>
 
                             <input
-                                type="text"
+                                type="number"
                                 name="price"
+                                value={Data.price}
                                 onChange={handleForm}
                                 placeholder="₹ Enter price"
+                                min="0"
                             />
+
+                            {errors.price && (
+                                <small>
+                                    {errors.price}
+                                </small>
+                            )}
 
                         </div>
 
-
                         <div className="form-group">
 
-                            <label>Category</label>
+                            <label>
+                                Category
+                            </label>
 
-                            <select name="category" onChange={handleForm}>
+                            <select
+                                name="category"
+                                value={Data.category}
+                                onChange={handleForm}
+                            >
 
                                 <option value="">
                                     Select category
@@ -250,18 +387,31 @@ const ItemList = () => {
 
                             </select>
 
+                            {errors.category && (
+                                <small>
+                                    {errors.category}
+                                </small>
+                            )}
+
                         </div>
 
                     </div>
 
+                    {/* CONDITION + IMAGE */}
 
                     <div className="form-row">
 
                         <div className="form-group">
 
-                            <label>Condition</label>
+                            <label>
+                                Condition
+                            </label>
 
-                            <select name='condition' onChange={handleForm}>
+                            <select
+                                name="condition"
+                                value={Data.condition}
+                                onChange={handleForm}
+                            >
 
                                 <option value="">
                                     Select condition
@@ -285,12 +435,19 @@ const ItemList = () => {
 
                             </select>
 
-                        </div>
+                            {errors.condition && (
+                                <small>
+                                    {errors.condition}
+                                </small>
+                            )}
 
+                        </div>
 
                         <div className="form-group">
 
-                            <label>Image</label>
+                            <label>
+                                Image
+                            </label>
 
                             <input
                                 type="file"
@@ -299,17 +456,26 @@ const ItemList = () => {
                                 onChange={handleForm}
                             />
 
+                            {errors.image && (
+                                <small>
+                                    {errors.image}
+                                </small>
+                            )}
+
                         </div>
 
                     </div>
 
+                    {/* SUBMIT */}
 
                     <button
                         type="submit"
                         className="post-button"
                         disabled={loading}
                     >
-                        {loading ? "Posting..." : "Post Listing"}
+                        {loading
+                            ? "Posting..."
+                            : "Post Listing"}
                     </button>
 
                 </form>
@@ -317,7 +483,8 @@ const ItemList = () => {
             </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default ItemList
+export default ItemList;
+
