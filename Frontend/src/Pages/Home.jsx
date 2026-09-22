@@ -1,9 +1,28 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    // ================= LOADING =================
+    if (loading) {
+        return (
+            <div className="home-loader">
+                <div className="spinner"></div>
+                <p>Loading SwapZone...</p>
+            </div>
+        );
+    }
 
     return (
         <main className="home">
@@ -30,9 +49,6 @@ const Home = () => {
                         dorm items, and useful skills within your campus
                         community.
                     </p>
-
-
-                    {/* ================= CALL TO ACTION ================= */}
 
                     <div className="hero-buttons">
 
@@ -166,4 +182,3 @@ const Home = () => {
 };
 
 export default Home;
-

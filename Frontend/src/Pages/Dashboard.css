@@ -646,3 +646,53 @@
     }
 
 }
+
+/* ================= DASHBOARD LOADING ================= */
+
+.dashboard-loading {
+    min-height: 70vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.dashboard-loading .loading-spinner {
+    width: 35px;
+    height: 35px;
+
+    border: 3px solid #eee;
+
+    border-top-color: #f59e0b;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+
+    margin-bottom: 15px;
+}
+
+.dashboard-loading h2 {
+    margin: 0 0 5px;
+
+    color: #333;
+}
+
+.dashboard-loading p {
+    margin: 0;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -84,9 +84,6 @@ const MarketPlace = () => {
     return (
         <main className="marketplace-page">
 
-            {/* =========================
-                HEADER
-            ========================= */}
 
             <section className="marketplace-header">
 
@@ -111,9 +108,6 @@ const MarketPlace = () => {
             </section>
 
 
-            {/* =========================
-                SEARCH + FILTER
-            ========================= */}
 
             <section className="marketplace-controls">
 
@@ -175,10 +169,6 @@ const MarketPlace = () => {
             </section>
 
 
-            {/* =========================
-                RESULTS INFO
-            ========================= */}
-
             <div className="results-header">
 
                 <div>
@@ -200,9 +190,6 @@ const MarketPlace = () => {
             </div>
 
 
-            {/* =========================
-                LOADING
-            ========================= */}
 
             {loading && (
                 <div className="marketplace-message">
@@ -212,10 +199,6 @@ const MarketPlace = () => {
             )}
 
 
-            {/* =========================
-                ERROR
-            ========================= */}
-
             {!loading && error && (
                 <div className="marketplace-message error-message">
                     <h2>Something went wrong</h2>
@@ -223,10 +206,6 @@ const MarketPlace = () => {
                 </div>
             )}
 
-
-            {/* =========================
-                ITEMS
-            ========================= */}
 
             {!loading && !error && (
 

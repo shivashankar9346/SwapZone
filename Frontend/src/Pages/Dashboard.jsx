@@ -1,13 +1,37 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import "./Dashboard.css"
-import { useAuth } from "../Context/UserContext"
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "./Dashboard.css";
+import { useAuth } from "../Context/UserContext";
 
 const Dashboard = () => {
 
     const { user, myListings, wishlist } = useAuth();
 
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    // ================= LOADING =================
+
+    if (loading) {
+        return (
+            <div className="dashboard-loading">
+
+                <div className="loading-spinner"></div>
+
+                <h2>Loading Dashboard...</h2>
+
+                <p>Please wait a moment.</p>
+
+            </div>
+        );
+    }
 
     return (
         <div className="dashboard-page">
@@ -50,6 +74,7 @@ const Dashboard = () => {
 
                 </div>
 
+
                 <div className="dashboard-content">
 
                     <div className="dashboard-sidebar">
@@ -90,6 +115,7 @@ const Dashboard = () => {
 
                     </div>
 
+
                     <div className="dashboard-main">
 
                         <div className="welcome-card">
@@ -114,6 +140,7 @@ const Dashboard = () => {
 
                         </div>
 
+
                         <div className="stats-container">
 
                             <div className="stat-card">
@@ -129,6 +156,7 @@ const Dashboard = () => {
                                             ? "Item"
                                             : "Items"}
                                     </h3>
+
                                     <p>My Listings</p>
                                 </div>
 
@@ -148,6 +176,7 @@ const Dashboard = () => {
                                             ? "Item"
                                             : "Items"}
                                     </h3>
+
                                     <p>Wishlist</p>
                                 </div>
 
@@ -213,7 +242,7 @@ const Dashboard = () => {
             </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default Dashboard
+export default Dashboard;
