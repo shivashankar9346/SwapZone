@@ -330,10 +330,6 @@ const Swap = () => {
                 </button>
 
 
-                {/* =========================
-                    ITEM CARD
-                ========================= */}
-
                 <div className="swap-card">
 
                     {/* IMAGE */}
@@ -343,7 +339,7 @@ const Swap = () => {
                         {item.image ? (
 
                             <img
-                                src={`http://localhost:3000${item.image}`}
+                                src={`${import.meta.env.VITE_API_URL}${item.image}`}
                                 alt={item.bookname}
                                 className="swap-image"
                             />
