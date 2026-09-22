@@ -251,7 +251,7 @@ const MarketPlace = () => {
                                             src={
                                                 item.image.startsWith("http")
                                                     ? item.image
-                                                    : `http://localhost:3000${item.image}`
+                                                    : `${import.meta.env.VITE_API_URL}${item.image}`
                                             }
                                             alt={item.bookname}
                                         />

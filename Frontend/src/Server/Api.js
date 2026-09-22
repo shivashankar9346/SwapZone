@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const api = axios.create({
-    baseURL :"https://swapzone-lx5g.onrender.com"
+    baseURL :import.meta.env.VITE_API_URL
 })
 
 export async function register( form) {
@@ -39,7 +39,12 @@ export async function login(formData){
 
     }
     catch(err){
-        console.log(err);
+        console.error(
+            "LOGIN ERROR:",
+            err.response?.data || err.message
+        );
+
+        throw err;
         
     }
 
