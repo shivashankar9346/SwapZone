@@ -5,6 +5,7 @@ import itemRoutes from "./Routes/itemRoutes.js";
 import authRoutes from "./Routes/authRoutes.js"
 import wishlistRoutes from "./Routes/wishListRoutes.js";
 import requestRoutes from "./Routes/requestRoutes.js";
+import path from "path";
 
 
 const app = express()
@@ -25,6 +26,12 @@ app.use(
 );
 app.use(express.json());
 
+app.use(
+    "/uploads",
+    express.static(path.join(process.cwd(), "uploads"))
+);
+
+
 
 app.get("/",(req,res)=>{
     res.send("Server is Running")
@@ -39,17 +46,6 @@ app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/requests", requestRoutes);
 
 
-app.use((err, req, res, next) => {
-    console.error("🔥🔥 GLOBAL ERROR 🔥🔥");
-    console.error("ERROR NAME:", err.name);
-    console.error("ERROR MESSAGE:", err.message);
-    console.error("ERROR STACK:", err.stack);
-
-    res.status(500).json({
-        success: false,
-        message: err.message
-    });
-});
 
 
 const startServer = async () => {
