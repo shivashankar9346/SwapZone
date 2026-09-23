@@ -29,7 +29,7 @@ const MarketPlace = () => {
                 setError("");
 
                 const response = await fetch(
-                    `${import.meta.env.VITE_API_URLL}/api/items`
+                    `${import.meta.env.VITE_API_URL}/api/items`
                 );
 
                 console.log("ITEM API STATUS:", response.status);

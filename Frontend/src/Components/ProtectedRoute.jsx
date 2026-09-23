@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../Context/UserContext";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({children}) => {
 
     const { user, loading } = useAuth();
     const location = useLocation();
@@ -28,7 +28,7 @@ const ProtectedRoute = () => {
     }
 
     // User is logged in
-    return <Outlet />;
+    return children;
 };
 
 export default ProtectedRoute;
