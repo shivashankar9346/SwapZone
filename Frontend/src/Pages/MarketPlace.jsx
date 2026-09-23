@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./MarketPlace.css";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL;
+// const API_URL = import.meta.env.VITE_API_URL;
 
 const MarketPlace = () => {
 
@@ -29,7 +29,7 @@ const MarketPlace = () => {
                 setError("");
 
                 const response = await fetch(
-                    `${API_URL}/api/items`
+                    `${import.meta.env.VITE_API_URLL}/api/items`
                 );
 
                 console.log("ITEM API STATUS:", response.status);
@@ -105,7 +105,7 @@ const MarketPlace = () => {
         }
 
         // Backend returns /uploads/filename
-        return `${API_URL}${image}`;
+        return `${import.meta.env.VITE_API_URL}${image}`;
     };
 
 

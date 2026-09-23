@@ -130,3 +130,34 @@ console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
         });
     }
 }
+
+
+export const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                campusorhostel: user.campusorhostel,
+                branch: user.branch
+            }
+        });
+
+    } catch (err) {
+
+        console.error("GET ME ERROR:", err);
+
+        res.status(500).json({
+            message: err.message
+        });
+    }
+};
