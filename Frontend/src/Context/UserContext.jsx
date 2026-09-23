@@ -1,25 +1,14 @@
-import { useContext } from "react";
-import { register, login, getMe } from "../Server/Api";
-import { AuthContext } from "./auth.context";
+import { register, login } from "../Server/Api";
+import { useAuth } from "./auth.context";
 
-export const useAuth = () => {
-
-    const context = useContext(AuthContext);
+export const useUser = () => {
 
     const {
         user,
         setUser,
-
         loading,
-        setLoading,
-
-        myListings,
-        setMyListings,
-
-        wishlist,
-        setWishlist
-
-    } = context;
+        setLoading
+    } = useAuth();
 
 
     // ================================
@@ -40,7 +29,8 @@ export const useAuth = () => {
 
         } catch (err) {
 
-            console.log(err);
+            console.error("LOGIN ERROR:", err);
+
             throw err;
 
         } finally {
@@ -69,7 +59,9 @@ export const useAuth = () => {
 
         } catch (err) {
 
-            console.log(err);
+            console.error("REGISTER ERROR:", err);
+
+            throw err;
 
         } finally {
 
@@ -87,28 +79,15 @@ export const useAuth = () => {
 
         setUser(null);
 
-        // Clear shared data on logout
-        setMyListings([]);
-        setWishlist([]);
-
+        localStorage.removeItem("token");
     };
 
 
     return {
-
         user,
         loading,
-
         handleLogin,
         handleRegister,
-        handleLogout,
-
-        // Shared listings
-        myListings,
-        setMyListings,
-
-        // Shared wishlist
-        wishlist,
-        setWishlist
+        handleLogout
     };
 };

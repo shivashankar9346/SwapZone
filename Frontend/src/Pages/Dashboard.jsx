@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Dashboard.css";
-import { useAuth } from "../Context/UserContext";
+import { useAuth } from "../Context/auth.context";
+import { useWishlist } from "../Context/WishlistContext";
+import { useListings } from "../Context/ListingContext";
 
 const Dashboard = () => {
 
-    const { user, myListings, wishlist } = useAuth();
+    const { user } = useAuth();
+    const { myListings } = useListings();
+    const {wishlist} = useWishlist()
 
     const [loading, setLoading] = useState(true);
 

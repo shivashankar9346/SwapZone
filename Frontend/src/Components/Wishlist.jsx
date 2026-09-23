@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Context/UserContext";
 import "./Wishlist.css";
+import { useWishlist } from "../Context/WishlistContext";
 
 const Wishlist = () => {
     const navigate = useNavigate();
-    const { wishlist, setWishlist } = useAuth();
+    
+    const { wishlist, setWishlist } = useWishlist;
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");

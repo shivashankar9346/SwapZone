@@ -99,7 +99,9 @@ const MarketPlace = () => {
 
         // If backend already returns complete URL
         if (image.startsWith("http://") ||
-            image.startsWith("https://")) {
+            image.startsWith("https://")
+        )
+             {
 
             return image;
         }

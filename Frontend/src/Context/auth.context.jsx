@@ -4,30 +4,20 @@ import {
     useState
 } from "react";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const [myListings, setMyListings] = useState([]);
-    const [wishlist, setWishlist] = useState([]);
-
     return (
         <AuthContext.Provider
             value={{
                 user,
                 setUser,
-
                 loading,
-                setLoading,
-
-                myListings,
-                setMyListings,
-
-                wishlist,
-                setWishlist
+                setLoading
             }}
         >
             {children}
@@ -36,5 +26,13 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+    const context = useContext(AuthContext);
+
+    if (!context) {
+        throw new Error(
+            "useAuth must be used inside AuthProvider"
+        );
+    }
+
+    return context;
 };

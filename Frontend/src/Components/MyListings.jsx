@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../Context/UserContext";
+import { useAuth } from "../Context/auth.context";
 import "./MyListings.css";
+import { useListings } from "../Context/ListingContext";
 
 const MyListings = () => {
 
-    const { user, myListings: userData, setMyListings } = useAuth();
+    const { user } = useAuth();
+    const { myListings: userData, setMyListings } = useListings();
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");

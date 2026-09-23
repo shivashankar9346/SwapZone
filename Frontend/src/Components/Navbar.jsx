@@ -1,13 +1,14 @@
-import React, { useState } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../Context/UserContext";
+import { useAuth } from "../Context/auth.context";
+import { useUser } from "../Context/UserContext";
 
 const Navbar = () => {
 
   const navigate = useNavigate();
-  const { user, handleLogout: logout } = useAuth();
-
+  
+  const { user } = useAuth();
+const { handleLogout: logout } = useUser();
 
 
   const handleLogout = () => {

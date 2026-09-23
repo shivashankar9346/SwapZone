@@ -99,22 +99,66 @@ export const getAllItems = async (req, res) => {
 
 // to update an item 
 
-export const updateItems = async (req,res) => {
+// export const updateItems = async (req,res) => {
+//     try {
+
+//         const updateItem = await Item.findByIdAndUpdate(
+//             req.params.id,
+//             req.body,
+//             {
+//                 new: true,
+//                 runValidators: true
+//             }
+//         )
+
+//         if (!updateItem) {
+//             return res.status(400).json({
+//                 message: "Item not found"
+//             })
+//         }
+
+//         res.status(200).json({
+//             message: "Item updated successfully",
+//             item: updateItem
+//         });
+
+//     }
+//     catch (err) {
+//         res.status(500).json({
+//             message: "Failed to update item",
+//             error: err.message
+//         });
+
+
+//     }
+// }
+
+
+
+export const updateItems = async (req, res) => {
     try {
+
+        const updateData = {
+            ...req.body
+        };
+
+        if (req.file) {
+            updateData.image = `/uploads/${req.file.filename}`;
+        }
 
         const updateItem = await Item.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updateData,
             {
                 new: true,
                 runValidators: true
             }
-        )
+        );
 
         if (!updateItem) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: "Item not found"
-            })
+            });
         }
 
         res.status(200).json({
@@ -122,16 +166,16 @@ export const updateItems = async (req,res) => {
             item: updateItem
         });
 
-    }
-    catch (err) {
+    } catch (err) {
+
+        console.error("❌ UPDATE ITEM ERROR:", err);
+
         res.status(500).json({
             message: "Failed to update item",
             error: err.message
         });
-
-
     }
-}
+};
 
 export const getMyListings = async (req, res) => {
 

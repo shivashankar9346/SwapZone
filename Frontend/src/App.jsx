@@ -19,7 +19,10 @@ import EnquiriesAndOffers from "./Components/EnquiriesAndOffers";
 
 import ProtectedRoute from "./Components/ProtectedRoute";
 
+// Contexts
 import { AuthProvider } from "./Context/auth.context";
+import { ListingProvider } from "./Context/ListingContext";
+import { WishlistProvider } from "./Context/WishlistContext";
 
 
 const App = () => {
@@ -139,9 +142,21 @@ const App = () => {
 
 
   return (
+
     <AuthProvider>
-      <RouterProvider router={router} />
+
+      <ListingProvider>
+
+        <WishlistProvider>
+
+          <RouterProvider router={router} />
+
+        </WishlistProvider>
+
+      </ListingProvider>
+
     </AuthProvider>
+
   );
 };
 

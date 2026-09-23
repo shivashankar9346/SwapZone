@@ -2,13 +2,13 @@ import React from 'react'
 import "./Login.css"
 import { useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
-import { useAuth } from '../Context/UserContext'
+import { useUser } from "../Context/UserContext";
 
 const Login = () => {
 
   const navigate = useNavigate()
 
-  const { loading, handleLogin } = useAuth()
+  const { loading, handleLogin } = useUser();
 
   const [error, setError] = useState("")
   const [errors, setErrors] = useState({});

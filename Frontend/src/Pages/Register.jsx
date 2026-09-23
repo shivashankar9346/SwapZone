@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Context/UserContext";
+import { useUser } from "../Context/UserContext";
+
 
 const Register = () => {
 
@@ -18,7 +19,7 @@ const Register = () => {
         password: ""
     });
 
-    const { loading, handleRegister } = useAuth();
+    const { handleRegister } = useUser();
 
     const validateForm = () => {
 

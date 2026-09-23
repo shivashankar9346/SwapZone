@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ItemList.css";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Context/UserContext";
+import { useAuth } from "../Context/auth.context";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
