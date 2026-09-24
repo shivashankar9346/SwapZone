@@ -13,10 +13,6 @@ const Wishlist = () => {
 
     const API_URL = import.meta.env.VITE_API_URL;
 
-    // =========================================
-    // GET WISHLIST
-    // =========================================
-
     const getWishlist = async () => {
         try {
             setLoading(true);
@@ -65,9 +61,9 @@ const Wishlist = () => {
         }
     };
 
-    useEffect(() => {
-        getWishlist();
-    }, []);
+    // useEffect(() => {
+    //     getWishlist();
+    // }, []);
 
     // =========================================
     // REMOVE FROM WISHLIST
