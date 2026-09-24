@@ -91,27 +91,20 @@ const MarketPlace = () => {
     // IMAGE URL
     // =========================
 
-   const getImageUrl = (image) => {
+const getImageUrl = (image) => {
     if (!image) {
         return null;
     }
 
-    if (image.startsWith("http://") || image.startsWith("https://")) {
+    if (
+        image.startsWith("http://") ||
+        image.startsWith("https://")
+    ) {
         return image;
     }
 
-    const cleanImage = image
-        .split("/")
-        .map((part, index, arr) =>
-            index === arr.length - 1
-                ? encodeURIComponent(part)
-                : part
-        )
-        .join("/");
-
-    return `${import.meta.env.VITE_API_URL}${cleanImage}`;
+    return `${import.meta.env.VITE_API_URL}${image}`;
 };
-
 
     // =========================
     // UI
@@ -283,13 +276,13 @@ const MarketPlace = () => {
 
                             const imageUrl = getImageUrl(item.image);
 
-                            console.log(
-                                "🖼️ ITEM IMAGE:",
-                                item.bookname,
-                                item.image,
-                                "→",
-                                imageUrl
-                            );
+                            // console.log(
+                            //     "🖼️ ITEM IMAGE:",
+                            //     item.bookname,
+                            //     item.image,
+                            //     "→",
+                            //     imageUrlever
+                            // );
 
                             return (
 
