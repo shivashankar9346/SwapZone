@@ -25,7 +25,7 @@ const EnquiriesAndOffers = () => {
 
     try {
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       if (!token) {
         navigate("/login");
@@ -77,7 +77,7 @@ const EnquiriesAndOffers = () => {
 
     try {
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       if (!token) {
         navigate("/login");
@@ -153,7 +153,7 @@ const EnquiriesAndOffers = () => {
 
     try {
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const response = await fetch(
         `${API_URL}/api/requests/${requestId}/accept`,
@@ -201,7 +201,7 @@ const EnquiriesAndOffers = () => {
 
     try {
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const response = await fetch(
         `${API_URL}/api/requests/${requestId}/reject`,
@@ -249,7 +249,7 @@ const EnquiriesAndOffers = () => {
 
     try {
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const response = await fetch(
         `${API_URL}/api/requests/${requestId}/cancel`,

@@ -6,7 +6,7 @@ import { useWishlist } from "../Context/WishlistContext";
 const Wishlist = () => {
     const navigate = useNavigate();
     
-    const { wishlist, setWishlist } = useWishlist;
+    const { wishlist, setWishlist } = useWishlist();
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -18,7 +18,7 @@ const Wishlist = () => {
             setLoading(true);
             setError("");
 
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
 
             if (!token) {
                 navigate("/login");
@@ -61,9 +61,9 @@ const Wishlist = () => {
         }
     };
 
-    // useEffect(() => {
-    //     getWishlist();
-    // }, []);
+    useEffect(() => {
+        getWishlist();
+    }, []);
 
     // =========================================
     // REMOVE FROM WISHLIST
@@ -71,7 +71,7 @@ const Wishlist = () => {
 
     const removeFromWishlist = async (itemId) => {
         try {
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
 
             if (!token) {
                 navigate("/login");
