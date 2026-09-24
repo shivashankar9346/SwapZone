@@ -180,10 +180,6 @@ export const updateItems = async (req, res) => {
 export const getMyListings = async (req, res) => {
 
     try {
-
-
-
-
         const { userId } = req.params;
 
         const items = await Item.find({

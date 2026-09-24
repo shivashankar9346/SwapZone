@@ -91,25 +91,26 @@ const MarketPlace = () => {
     // IMAGE URL
     // =========================
 
-    const getImageUrl = (image) => {
+   const getImageUrl = (image) => {
+    if (!image) {
+        return null;
+    }
 
-        if (!image) {
-            return null;
-        }
-        
+    if (image.startsWith("http://") || image.startsWith("https://")) {
+        return image;
+    }
 
-        // If backend already returns complete URL
-        if (image.startsWith("http://") ||
-            image.startsWith("https://")
+    const cleanImage = image
+        .split("/")
+        .map((part, index, arr) =>
+            index === arr.length - 1
+                ? encodeURIComponent(part)
+                : part
         )
-             {
+        .join("/");
 
-            return image;
-        }
-
-        // Backend returns /uploads/filename
-        return `${import.meta.env.VITE_API_URL}${image}`;
-    };
+    return `${import.meta.env.VITE_API_URL}${cleanImage}`;
+};
 
 
     // =========================

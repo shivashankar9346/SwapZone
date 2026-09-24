@@ -35,7 +35,7 @@ const itemsSchema = new mongoose.Schema(
             type: String,
             default: ""
         },
-           userId: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true
