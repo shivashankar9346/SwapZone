@@ -68,7 +68,7 @@ const Swap = () => {
 
         try {
 
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
 
             if (!token) {
                 navigate("/login");
@@ -153,7 +153,7 @@ const Swap = () => {
 
         try {
 
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
 
             if (!token) {
                 navigate("/login");
@@ -216,7 +216,7 @@ const Swap = () => {
 
         try {
 
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
 
             if (!token) {
                 navigate("/login");
