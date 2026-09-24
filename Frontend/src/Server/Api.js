@@ -28,7 +28,7 @@ export async function login(formData){
         const response = await api.post("/api/auth/login", formData)
 
         
-        localStorage.setItem(
+        sessionStorage.setItem(
             "token",
             response.data.token
         );
@@ -189,7 +189,7 @@ export async function removeFromWishlist(itemId) {
 
 api.interceptors.request.use((config) => {
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     if (token) {
 

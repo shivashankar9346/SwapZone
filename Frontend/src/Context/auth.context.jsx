@@ -5,47 +5,62 @@ import {
     useState
 } from "react";
 
-import { getMe } from "../Server/Api";
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
-
-    // true while checking existing login
     const [loading, setLoading] = useState(true);
 
+
+    // =====================================
+    // RESTORE USER AFTER PAGE REFRESH
+    // =====================================
 
     useEffect(() => {
 
         const restoreUser = async () => {
 
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
 
-            // No token means user is logged out
+            // No token = not logged in
             if (!token) {
-                setUser(null);
                 setLoading(false);
                 return;
             }
 
             try {
 
-                console.log("🔄 Restoring user...");
+                const response = await fetch(
+                    `${import.meta.env.VITE_API_URL}/api/auth/get-me`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
 
-                const data = await getMe();
+                const data = await response.json();
 
-                console.log("✅ User restored:", data.user);
+                if (!response.ok) {
+                    throw new Error(
+                        data.message || "Session expired"
+                    );
+                }
 
+                // Restore user
                 setUser(data.user);
 
             } catch (error) {
 
-                console.error("❌ Failed to restore user:", error);
+                console.error(
+                    "❌ RESTORE USER ERROR:",
+                    error
+                );
 
-                localStorage.removeItem("token");
-
+                // Invalid/expired token
+                sessionStorage.removeItem("token");
                 setUser(null);
 
             } finally {
@@ -55,9 +70,23 @@ export const AuthProvider = ({ children }) => {
             }
         };
 
+
         restoreUser();
 
     }, []);
+
+
+    // =====================================
+    // LOGOUT
+    // =====================================
+
+    const logout = () => {
+
+        setUser(null);
+
+        sessionStorage.removeItem("token");
+
+    };
 
 
     return (
@@ -65,8 +94,11 @@ export const AuthProvider = ({ children }) => {
             value={{
                 user,
                 setUser,
+
                 loading,
-                setLoading
+                setLoading,
+
+                logout
             }}
         >
             {children}
@@ -80,9 +112,11 @@ export const useAuth = () => {
     const context = useContext(AuthContext);
 
     if (!context) {
+
         throw new Error(
             "useAuth must be used inside AuthProvider"
         );
+
     }
 
     return context;

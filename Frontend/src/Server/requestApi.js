@@ -6,7 +6,7 @@ const api = axios.create({
 
 // Get token from localStorage
 const getAuthHeaders = () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
       if (!token) {
         throw new Error("Please login first");
     }
