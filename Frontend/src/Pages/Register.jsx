@@ -10,6 +10,7 @@ const Register = () => {
 
     const [error, setError] = useState("");
     const [errors, setErrors] = useState({});
+    const [loading , setLoading] = useState("")
 
     const [form, setForm] = useState({
         name: "",
