@@ -46,6 +46,9 @@ export const createItem = async (req, res) => {
         // =====================================
         // UPLOAD TO CLOUDINARY
         // =====================================
+        // =====================================
+        // UPLOAD TO CLOUDINARY
+        // =====================================
 
         const uploadToCloudinary = () => {
 
@@ -61,9 +64,33 @@ export const createItem = async (req, res) => {
                         (error, result) => {
 
                             if (error) {
+
+                                console.error(
+                                    "☁️ CLOUDINARY ERROR:",
+                                    error
+                                );
+
+                                console.error(
+                                    "☁️ CLOUDINARY ERROR MESSAGE:",
+                                    error.message
+                                );
+
+                                console.error(
+                                    "☁️ CLOUDINARY HTTP CODE:",
+                                    error.http_code
+                                );
+
                                 reject(error);
+
                             } else {
+
+                                console.log(
+                                    "☁️ CLOUDINARY SUCCESS:",
+                                    result.secure_url
+                                );
+
                                 resolve(result);
+
                             }
 
                         }
@@ -75,18 +102,7 @@ export const createItem = async (req, res) => {
                     .pipe(uploadStream);
 
             });
-
         };
-
-
-        const cloudinaryResult =
-            await uploadToCloudinary();
-
-
-        console.log(
-            "☁️ CLOUDINARY URL:",
-            cloudinaryResult.secure_url
-        );
 
 
         // =====================================
