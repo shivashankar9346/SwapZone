@@ -454,61 +454,52 @@ export const createItem = async (req, res) => {
         // =====================================
         // UPLOAD TO CLOUDINARY
         // =====================================
-
         const uploadToCloudinary = () => {
-
             return new Promise((resolve, reject) => {
 
-                const uploadStream =
-                    cloudinary.uploader.upload_stream(
-                        {
-                            folder: "swapzone/items",
-                            resource_type: "image"
-                        },
+                console.log("☁️ STARTING CLOUDINARY UPLOAD");
 
-                        (error, result) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: "swapzone/items",
+                        resource_type: "image"
+                    },
 
-                            if (error) {
+                    (error, result) => {
 
-                                console.error(
-                                    "☁️ CLOUDINARY ERROR:",
-                                    error
-                                );
+                        if (error) {
 
-                                console.error(
-                                    "☁️ CLOUDINARY ERROR MESSAGE:",
-                                    error.message
-                                );
+                            console.error("❌ CLOUDINARY UPLOAD FAILED");
+                            console.error("ERROR OBJECT:", error);
+                            console.error("ERROR MESSAGE:", error.message);
+                            console.error("HTTP CODE:", error.http_code);
+                            console.error("ERROR NAME:", error.name);
 
-                                console.error(
-                                    "☁️ CLOUDINARY HTTP CODE:",
-                                    error.http_code
-                                );
+                            reject(error);
 
-                                reject(error);
+                        } else {
 
-                            } else {
+                            console.log("✅ CLOUDINARY UPLOAD SUCCESS");
+                            console.log("PUBLIC ID:", result.public_id);
+                            console.log("SECURE URL:", result.secure_url);
 
-                                console.log(
-                                    "☁️ CLOUDINARY SUCCESS:",
-                                    result.secure_url
-                                );
-
-                                resolve(result);
-
-                            }
-
+                            resolve(result);
                         }
-                    );
+                    }
+                );
 
+                uploadStream.on("error", (error) => {
 
-                // Send image buffer to Cloudinary
+                    console.error("❌ CLOUDINARY STREAM ERROR:", error);
+
+                    reject(error);
+
+                });
+
                 Readable
                     .from(req.file.buffer)
                     .pipe(uploadStream);
-
             });
-
         };
 
 
