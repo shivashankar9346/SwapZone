@@ -255,7 +255,7 @@ const Swap = () => {
             setSwapItemPrice("");
             setMessage("");
 
-            navigate("/enquirieaAndOfers");
+            navigate("/EnquiriesAndOffers");
 
         } catch (error) {
 
