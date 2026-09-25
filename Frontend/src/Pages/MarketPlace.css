@@ -588,3 +588,25 @@
 
 }
 
+
+
+
+.seller-info {
+    margin: 10px 0;
+    padding: 9px 10px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.seller-name {
+    font-size: 14px;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.seller-email {
+    font-size: 12px;
+    color: #6b7280;
+    word-break: break-word;
+}

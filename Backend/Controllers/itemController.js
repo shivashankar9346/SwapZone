@@ -1,55 +1,164 @@
-import express from "express"
-import Item from "../Models/itemModel.js"
 
-// This is to create a new item
+
+
+import Item from "../Models/itemModel.js";
+import cloudinary from "../DataBase/cloudinary.js"
+import { Readable } from "stream";
+
+
+// =====================================
+// CREATE ITEM
+// =====================================
+
 export const createItem = async (req, res) => {
+
     try {
 
         console.log("🔥 CREATE ITEM");
+
         console.log("BODY:", req.body);
 
+        console.log(
+            "FILE:",
+            req.file
+                ? {
+                    name: req.file.originalname,
+                    size: req.file.size,
+                    type: req.file.mimetype
+                }
+                : null
+        );
+
+
+        // =====================================
+        // CHECK IMAGE
+        // =====================================
+
+        if (!req.file) {
+
+            return res.status(400).json({
+                message: "Image is required"
+            });
+
+        }
+
+
+        // =====================================
+        // UPLOAD TO CLOUDINARY
+        // =====================================
+
+        const uploadToCloudinary = () => {
+
+            return new Promise((resolve, reject) => {
+
+                const uploadStream =
+                    cloudinary.uploader.upload_stream(
+                        {
+                            folder: "swapzone/items",
+                            resource_type: "image"
+                        },
+
+                        (error, result) => {
+
+                            if (error) {
+                                reject(error);
+                            } else {
+                                resolve(result);
+                            }
+
+                        }
+                    );
+
+
+                Readable
+                    .from(req.file.buffer)
+                    .pipe(uploadStream);
+
+            });
+
+        };
+
+
+        const cloudinaryResult =
+            await uploadToCloudinary();
+
+
+        console.log(
+            "☁️ CLOUDINARY URL:",
+            cloudinaryResult.secure_url
+        );
+
+
+        // =====================================
+        // CREATE ITEM
+        // =====================================
+
         const newItem = new Item({
+
             bookname: req.body.bookname,
+
             description: req.body.description,
+
             price: Number(req.body.price),
+
             category: req.body.category,
+
             condition: req.body.condition,
-            userId: req.user.id,
 
-            image: req.file
-                ? `/uploads/${req.file.filename}`
-                : ""
+            image: cloudinaryResult.secure_url,
+
+            userId: req.user.id
+
         });
 
-        const savedItem = await newItem.save();
 
-        console.log("✅ ITEM CREATED:", savedItem);
+        const savedItem =
+            await newItem.save();
 
-        res.status(201).json({
+
+        // =====================================
+        // RESPONSE
+        // =====================================
+
+        return res.status(201).json({
+
             message: "Item created successfully",
+
             item: savedItem
+
         });
 
-    } catch (err) {
 
-        console.log("❌ CREATE ITEM ERROR:", err);
+    } catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "❌ CREATE ITEM ERROR:",
+            error
+        );
+
+
+        return res.status(500).json({
+
             message: "Failed to create item",
-            error: err.message
+
+            error: error.message
+
         });
+
     }
+
 };
 
-// to get all the items
+
+
 
 export const getAllItems = async (req, res) => {
     try {
 
-
         const { search, category, condition } = req.query;
 
         const filter = {};
+
         if (search) {
             filter.$or = [
                 {
@@ -64,38 +173,42 @@ export const getAllItems = async (req, res) => {
                         $options: "i"
                     }
                 }
-            ]
+            ];
         }
 
         if (category) {
             filter.category = category;
         }
+
         if (condition) {
             filter.condition = condition;
         }
 
-        const getItems = await Item.find(filter).sort({
-            createdAt: -1
-        });
-
+        const getItems = await Item.find(filter)
+            .populate("userId", "name email")
+            .sort({
+                createdAt: -1
+            });
 
         res.status(200).json({
             message: "Items fetched successfully",
             count: getItems.length,
             items: getItems
-        })
+        });
 
+    } catch (err) {
 
+        console.error("GET ALL ITEMS ERROR:", err);
 
-    }
-    catch (err) {
         res.status(500).json({
             message: "Failed to fetch",
             error: err.message
-        })
-
+        });
     }
-}
+};
+
+
+
 
 // to update an item 
 

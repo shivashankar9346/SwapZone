@@ -5,8 +5,8 @@ import itemRoutes from "./Routes/itemRoutes.js";
 import authRoutes from "./Routes/authRoutes.js";
 import wishlistRoutes from "./Routes/wishListRoutes.js";
 import requestRoutes from "./Routes/requestRoutes.js";
-import path from "path";
-import fs from "fs";
+// import path from "path";
+// import fs from "fs";
 
 const app = express();
 
@@ -35,66 +35,66 @@ app.use(
 app.use(express.json());
 
 
-// ===============================
-// STATIC UPLOADS
-// ===============================
+// // ===============================
+// // STATIC UPLOADS
+// // ===============================
 
-const uploadDir = path.join(process.cwd(), "uploads");
+// const uploadDir = path.join(process.cwd(), "uploads");
 
-console.log("📁 Upload directory:", uploadDir);
-console.log("📁 Upload directory exists:", fs.existsSync(uploadDir));
+// console.log("📁 Upload directory:", uploadDir);
+// console.log("📁 Upload directory exists:", fs.existsSync(uploadDir));
 
-app.use(
-    "/uploads",
-    express.static(uploadDir)
-);
+// app.use(
+//     "/uploads",
+//     express.static(uploadDir)
+// );
 
 
 // ===============================
 // DEBUG UPLOADS
 // ===============================
 
-app.get("/debug/uploads", (req, res) => {
+// app.get("/debug/uploads", (req, res) => {
 
-    console.log("🔥 DEBUG UPLOADS");
+//     console.log("🔥 DEBUG UPLOADS");
 
-    console.log(
-        "📁 Current working directory:",
-        process.cwd()
-    );
+//     console.log(
+//         "📁 Current working directory:",
+//         process.cwd()
+//     );
 
-    console.log(
-        "📁 Upload directory:",
-        uploadDir
-    );
+//     console.log(
+//         "📁 Upload directory:",
+//         uploadDir
+//     );
 
-    const exists = fs.existsSync(uploadDir);
+//     const exists = fs.existsSync(uploadDir);
 
-    console.log(
-        "📁 Upload directory exists:",
-        exists
-    );
+//     console.log(
+//         "📁 Upload directory exists:",
+//         exists
+//     );
 
-    if (!exists) {
+//     if (!exists) {
 
-        return res.status(404).json({
-            exists: false,
-            directory: uploadDir,
-            message: "Uploads directory does not exist"
-        });
+//         return res.status(404).json({
+//             exists: false,
+//             directory: uploadDir,
+//             message: "Uploads directory does not exist"
+//         });
 
-    }
+//     }
 
-    const files = fs.readdirSync(uploadDir);
+//     const files = fs.readdirSync(uploadDir);
 
-    console.log("📦 Files:", files);
+//     console.log("📦 Files:", files);
 
-    res.json({
-        exists: true,
-        directory: uploadDir,
-        files
-    });
-});
+//     res.json({
+//         exists: true,
+//         directory: uploadDir,
+//         files
+//     });
+// });
 
 
 // ===============================
