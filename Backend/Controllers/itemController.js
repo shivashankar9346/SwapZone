@@ -1,417 +1,4 @@
-
-
-
-// import Item from "../Models/itemModel.js";
-// import cloudinary from "../DataBase/cloudinary.js"
-// import { Readable } from "stream";
-
-
-// // =====================================
-// // CREATE ITEM
-// // =====================================
-
-// export const createItem = async (req, res) => {
-
-//     try {
-
-//         console.log("🔥 CREATE ITEM");
-
-//         console.log("BODY:", req.body);
-
-//         console.log(
-//             "FILE:",
-//             req.file
-//                 ? {
-//                     name: req.file.originalname,
-//                     size: req.file.size,
-//                     type: req.file.mimetype
-//                 }
-//                 : null
-//         );
-
-
-//         // =====================================
-//         // CHECK IMAGE
-//         // =====================================
-
-//         if (!req.file) {
-
-//             return res.status(400).json({
-//                 message: "Image is required"
-//             });
-
-//         }
-
-
-//         // =====================================
-//         // UPLOAD TO CLOUDINARY
-//         // =====================================
-//         // =====================================
-//         // UPLOAD TO CLOUDINARY
-//         // =====================================
-
-//         const uploadToCloudinary = () => {
-
-//             return new Promise((resolve, reject) => {
-
-//                 const uploadStream =
-//                     cloudinary.uploader.upload_stream(
-//                         {
-//                             folder: "swapzone/items",
-//                             resource_type: "image"
-//                         },
-
-//                         (error, result) => {
-
-//                             if (error) {
-
-//                                 console.error(
-//                                     "☁️ CLOUDINARY ERROR:",
-//                                     error
-//                                 );
-
-//                                 console.error(
-//                                     "☁️ CLOUDINARY ERROR MESSAGE:",
-//                                     error.message
-//                                 );
-
-//                                 console.error(
-//                                     "☁️ CLOUDINARY HTTP CODE:",
-//                                     error.http_code
-//                                 );
-
-//                                 reject(error);
-
-//                             } else {
-
-//                                 console.log(
-//                                     "☁️ CLOUDINARY SUCCESS:",
-//                                     result.secure_url
-//                                 );
-
-//                                 resolve(result);
-
-//                             }
-
-//                         }
-//                     );
-
-
-//                 Readable
-//                     .from(req.file.buffer)
-//                     .pipe(uploadStream);
-
-//             });
-//         };
-
-
-//         // =====================================
-//         // CREATE ITEM
-//         // =====================================
-
-//         const newItem = new Item({
-
-//             bookname: req.body.bookname,
-
-//             description: req.body.description,
-
-//             price: Number(req.body.price),
-
-//             category: req.body.category,
-
-//             condition: req.body.condition,
-
-//             image: cloudinaryResult.secure_url,
-
-//             userId: req.user.id
-
-//         });
-
-
-//         const savedItem =
-//             await newItem.save();
-
-
-//         // =====================================
-//         // RESPONSE
-//         // =====================================
-
-//         return res.status(201).json({
-
-//             message: "Item created successfully",
-
-//             item: savedItem
-
-//         });
-
-
-//     } catch (error) {
-
-//         console.error(
-//             "❌ CREATE ITEM ERROR:",
-//             error
-//         );
-
-
-//         return res.status(500).json({
-
-//             message: "Failed to create item",
-
-//             error: error.message
-
-//         });
-
-//     }
-
-// };
-
-
-
-
-// export const getAllItems = async (req, res) => {
-//     try {
-
-//         const { search, category, condition } = req.query;
-
-//         const filter = {};
-
-//         if (search) {
-//             filter.$or = [
-//                 {
-//                     bookname: {
-//                         $regex: search,
-//                         $options: "i"
-//                     }
-//                 },
-//                 {
-//                     description: {
-//                         $regex: search,
-//                         $options: "i"
-//                     }
-//                 }
-//             ];
-//         }
-
-//         if (category) {
-//             filter.category = category;
-//         }
-
-//         if (condition) {
-//             filter.condition = condition;
-//         }
-
-//         const getItems = await Item.find(filter)
-//             .populate("userId", "name email")
-//             .sort({
-//                 createdAt: -1
-//             });
-
-//         res.status(200).json({
-//             message: "Items fetched successfully",
-//             count: getItems.length,
-//             items: getItems
-//         });
-
-//     } catch (err) {
-
-//         console.error("GET ALL ITEMS ERROR:", err);
-
-//         res.status(500).json({
-//             message: "Failed to fetch",
-//             error: err.message
-//         });
-//     }
-// };
-
-
-
-
-// // to update an item 
-
-// // export const updateItems = async (req,res) => {
-// //     try {
-
-// //         const updateItem = await Item.findByIdAndUpdate(
-// //             req.params.id,
-// //             req.body,
-// //             {
-// //                 new: true,
-// //                 runValidators: true
-// //             }
-// //         )
-
-// //         if (!updateItem) {
-// //             return res.status(400).json({
-// //                 message: "Item not found"
-// //             })
-// //         }
-
-// //         res.status(200).json({
-// //             message: "Item updated successfully",
-// //             item: updateItem
-// //         });
-
-// //     }
-// //     catch (err) {
-// //         res.status(500).json({
-// //             message: "Failed to update item",
-// //             error: err.message
-// //         });
-
-
-// //     }
-// // }
-
-
-
-// export const updateItems = async (req, res) => {
-//     try {
-
-//         const updateData = {
-//             ...req.body
-//         };
-
-//         if (req.file) {
-//             updateData.image = `/uploads/${req.file.filename}`;
-//         }
-
-//         const updateItem = await Item.findByIdAndUpdate(
-//             req.params.id,
-//             updateData,
-//             {
-//                 new: true,
-//                 runValidators: true
-//             }
-//         );
-
-//         if (!updateItem) {
-//             return res.status(404).json({
-//                 message: "Item not found"
-//             });
-//         }
-
-//         res.status(200).json({
-//             message: "Item updated successfully",
-//             item: updateItem
-//         });
-
-//     } catch (err) {
-
-//         console.error("❌ UPDATE ITEM ERROR:", err);
-
-//         res.status(500).json({
-//             message: "Failed to update item",
-//             error: err.message
-//         });
-//     }
-// };
-
-// export const getMyListings = async (req, res) => {
-
-//     try {
-//         const { userId } = req.params;
-
-//         const items = await Item.find({
-//             userId: userId
-//         }).sort({ createdAt: -1 });
-
-//         res.status(200).json({
-//             message: "My listings fetched successfully",
-//             count: items.length,
-//             items
-//         });
-
-//     } catch (err) {
-
-//         res.status(500).json({
-//             message: "Failed to fetch my listings",
-//             error: err.message
-//         });
-
-//     }
-// };
-
-
-
-
-// export const getItemById = async (req, res) => {
-//     try {
-
-//         const foundItem = await Item.findById(req.params.id);
-
-//         if (!foundItem) {
-//             return res.status(404).json({
-//                 message: "Item not found"
-//             });
-//         }
-
-//         res.status(200).json({
-//             message: "Item fetched successfully",
-//             item: foundItem
-//         });
-
-//     } catch (err) {
-
-//         console.log("GET ITEM ERROR:", err);
-
-//         res.status(500).json({
-//             message: "Failed to fetch item",
-//             error: err.message
-//         });
-//     }
-// };
-
-
-
-// export const deleteItem = async (req, res) => {
-//     try {
-
-//         const itemId = req.params.id;
-
-//         console.log("🗑️ DELETE ITEM:", itemId);
-//         console.log("👤 REQUEST USER:", req.user.id);
-
-//         const item = await Item.findById(itemId);
-
-//         if (!item) {
-//             return res.status(404).json({
-//                 message: "Item not found"
-//             });
-//         }
-
-//         // Make sure only the owner can delete the item
-//         if (item.userId.toString() !== req.user.id.toString()) {
-//             return res.status(403).json({
-//                 message: "You are not allowed to delete this item"
-//             });
-//         }
-
-//         await Item.findByIdAndDelete(itemId);
-
-//         console.log("✅ ITEM DELETED:", itemId);
-
-//         res.status(200).json({
-//             message: "Item deleted successfully",
-//             itemId: itemId
-//         });
-
-//     } catch (err) {
-
-//         console.error("❌ DELETE ITEM ERROR:", err);
-
-//         res.status(500).json({
-//             message: "Failed to delete item",
-//             error: err.message
-//         });
-//     }
-// };
-
-
-
-
 import Item from "../Models/itemModel.js";
-import cloudinary from "../DataBase/cloudinary.js";
-import { Readable } from "stream";
 
 
 // =====================================
@@ -431,6 +18,8 @@ export const createItem = async (req, res) => {
             req.file
                 ? {
                     name: req.file.originalname,
+                    filename: req.file.filename,
+                    path: req.file.path,
                     size: req.file.size,
                     type: req.file.mimetype
                 }
@@ -452,68 +41,16 @@ export const createItem = async (req, res) => {
 
 
         // =====================================
-        // UPLOAD TO CLOUDINARY
-        // =====================================
-        const uploadToCloudinary = () => {
-            return new Promise((resolve, reject) => {
-
-                console.log("☁️ STARTING CLOUDINARY UPLOAD");
-
-                const uploadStream = cloudinary.uploader.upload_stream(
-                    {
-                        folder: "swapzone/items",
-                        resource_type: "image"
-                    },
-
-                    (error, result) => {
-
-                        if (error) {
-
-                            console.error("❌ CLOUDINARY UPLOAD FAILED");
-                            console.error("ERROR OBJECT:", error);
-                            console.error("ERROR MESSAGE:", error.message);
-                            console.error("HTTP CODE:", error.http_code);
-                            console.error("ERROR NAME:", error.name);
-
-                            reject(error);
-
-                        } else {
-
-                            console.log("✅ CLOUDINARY UPLOAD SUCCESS");
-                            console.log("PUBLIC ID:", result.public_id);
-                            console.log("SECURE URL:", result.secure_url);
-
-                            resolve(result);
-                        }
-                    }
-                );
-
-                uploadStream.on("error", (error) => {
-
-                    console.error("❌ CLOUDINARY STREAM ERROR:", error);
-
-                    reject(error);
-
-                });
-
-                Readable
-                    .from(req.file.buffer)
-                    .pipe(uploadStream);
-            });
-        };
-
-
-        // =====================================
-        // CALL CLOUDINARY UPLOAD
+        // IMAGE URL
         // =====================================
 
-        const cloudinaryResult =
-            await uploadToCloudinary();
+        const imageUrl =
+            `/uploads/${req.file.filename}`;
 
 
         console.log(
-            "☁️ CLOUDINARY URL:",
-            cloudinaryResult.secure_url
+            "🖼️ IMAGE URL:",
+            imageUrl
         );
 
 
@@ -533,7 +70,7 @@ export const createItem = async (req, res) => {
 
             condition: req.body.condition,
 
-            image: cloudinaryResult.secure_url,
+            image: imageUrl,
 
             userId: req.user.id
 
@@ -546,6 +83,12 @@ export const createItem = async (req, res) => {
 
         const savedItem =
             await newItem.save();
+
+
+        console.log(
+            "✅ ITEM SAVED:",
+            savedItem
+        );
 
 
         // =====================================
@@ -642,7 +185,8 @@ export const getAllItems = async (req, res) => {
 
 
         // =====================================
-        // GET ITEMS + SELLER
+        // GET ITEMS
+        // + SELLER INFORMATION
         // =====================================
 
         const getItems = await Item.find(filter)
@@ -701,6 +245,26 @@ export const updateItems = async (req, res) => {
 
     try {
 
+        console.log(
+            "✏️ UPDATE ITEM:",
+            req.params.id
+        );
+
+        console.log(
+            "BODY:",
+            req.body
+        );
+
+        console.log(
+            "FILE:",
+            req.file
+        );
+
+
+        // =====================================
+        // UPDATE DATA
+        // =====================================
+
         const updateData = {
             ...req.body
         };
@@ -715,11 +279,16 @@ export const updateItems = async (req, res) => {
             updateData.image =
                 `/uploads/${req.file.filename}`;
 
+            console.log(
+                "🖼️ NEW IMAGE:",
+                updateData.image
+            );
+
         }
 
 
         // =====================================
-        // UPDATE
+        // UPDATE ITEM
         // =====================================
 
         const updateItem =
@@ -737,6 +306,10 @@ export const updateItems = async (req, res) => {
             );
 
 
+        // =====================================
+        // ITEM NOT FOUND
+        // =====================================
+
         if (!updateItem) {
 
             return res.status(404).json({
@@ -747,6 +320,10 @@ export const updateItems = async (req, res) => {
 
         }
 
+
+        // =====================================
+        // RESPONSE
+        // =====================================
 
         return res.status(200).json({
 
@@ -786,8 +363,20 @@ export const getMyListings = async (req, res) => {
 
     try {
 
-        const { userId } = req.params;
+        const {
+            userId
+        } = req.params;
 
+
+        console.log(
+            "📋 GET MY LISTINGS:",
+            userId
+        );
+
+
+        // =====================================
+        // GET USER ITEMS
+        // =====================================
 
         const items = await Item.find({
 
@@ -805,13 +394,17 @@ export const getMyListings = async (req, res) => {
             });
 
 
+        // =====================================
+        // RESPONSE
+        // =====================================
+
         return res.status(200).json({
 
             message: "My listings fetched successfully",
 
             count: items.length,
 
-            items
+            items: items
 
         });
 
@@ -845,13 +438,28 @@ export const getItemById = async (req, res) => {
 
     try {
 
+        console.log(
+            "🔎 GET ITEM:",
+            req.params.id
+        );
+
+
+        // =====================================
+        // FIND ITEM
+        // =====================================
+
         const foundItem =
             await Item.findById(req.params.id)
+
                 .populate(
                     "userId",
                     "name email campusorhostel branch"
                 );
 
+
+        // =====================================
+        // ITEM NOT FOUND
+        // =====================================
 
         if (!foundItem) {
 
@@ -863,6 +471,10 @@ export const getItemById = async (req, res) => {
 
         }
 
+
+        // =====================================
+        // RESPONSE
+        // =====================================
 
         return res.status(200).json({
 
@@ -902,7 +514,8 @@ export const deleteItem = async (req, res) => {
 
     try {
 
-        const itemId = req.params.id;
+        const itemId =
+            req.params.id;
 
 
         console.log(
@@ -923,6 +536,10 @@ export const deleteItem = async (req, res) => {
         const item =
             await Item.findById(itemId);
 
+
+        // =====================================
+        // ITEM NOT FOUND
+        // =====================================
 
         if (!item) {
 
@@ -958,7 +575,9 @@ export const deleteItem = async (req, res) => {
         // DELETE
         // =====================================
 
-        await Item.findByIdAndDelete(itemId);
+        await Item.findByIdAndDelete(
+            itemId
+        );
 
 
         console.log(
@@ -966,6 +585,10 @@ export const deleteItem = async (req, res) => {
             itemId
         );
 
+
+        // =====================================
+        // RESPONSE
+        // =====================================
 
         return res.status(200).json({
 

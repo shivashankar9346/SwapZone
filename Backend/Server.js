@@ -5,18 +5,12 @@ import itemRoutes from "./Routes/itemRoutes.js";
 import authRoutes from "./Routes/authRoutes.js";
 import wishlistRoutes from "./Routes/wishListRoutes.js";
 import requestRoutes from "./Routes/requestRoutes.js";
-import cloudinary from "./DataBase/cloudinary.js";
-// import path from "path";
-// import fs from "fs";
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
 
-// ===============================
-// CORS
-// ===============================
 
 app.use(
     cors({
@@ -29,9 +23,7 @@ app.use(
 );
 
 
-// ===============================
-// BODY PARSERS
-// ===============================
+
 
 app.use(express.json());
 
@@ -40,118 +32,17 @@ app.use(express.json());
 
 
 
-cloudinary.api.ping()
-    .then((result) => {
-        console.log("☁️ CLOUDINARY PING SUCCESS:", result);
-    })
-    .catch((error) => {
-        console.error("☁️ CLOUDINARY PING FAILED:", error);
-        console.error("MESSAGE:", error.message);
-        console.error("HTTP CODE:", error.http_code);
-    });
 
 
 
-    cloudinary.uploader.upload(
-    "https://res.cloudinary.com/demo/image/upload/sample.jpg"
-)
-.then((result) => {
-
-    console.log("✅ DIRECT UPLOAD SUCCESS:");
-    console.log(result.secure_url);
-
-})
-.catch((error) => {
-
-    console.log("❌ DIRECT UPLOAD FAILED:");
-    console.log(error);
-
-    console.log("MESSAGE:", error.message);
-    console.log("HTTP CODE:", error.http_code);
-
-    if (error.response) {
-        console.log("RESPONSE:", error.response);
-        console.log("HEADERS:", error.response.headers);
-    }
-
-});
 
 
-
-// // ===============================
-// // STATIC UPLOADS
-// // ===============================
-
-// const uploadDir = path.join(process.cwd(), "uploads");
-
-// console.log("📁 Upload directory:", uploadDir);
-// console.log("📁 Upload directory exists:", fs.existsSync(uploadDir));
-
-// app.use(
-//     "/uploads",
-//     express.static(uploadDir)
-// );
-
-
-// ===============================
-// DEBUG UPLOADS
-// ===============================
-
-// app.get("/debug/uploads", (req, res) => {
-
-//     console.log("🔥 DEBUG UPLOADS");
-
-//     console.log(
-//         "📁 Current working directory:",
-//         process.cwd()
-//     );
-
-//     console.log(
-//         "📁 Upload directory:",
-//         uploadDir
-//     );
-
-//     const exists = fs.existsSync(uploadDir);
-
-//     console.log(
-//         "📁 Upload directory exists:",
-//         exists
-//     );
-
-//     if (!exists) {
-
-//         return res.status(404).json({
-//             exists: false,
-//             directory: uploadDir,
-//             message: "Uploads directory does not exist"
-//         });
-
-//     }
-
-//     const files = fs.readdirSync(uploadDir);
-
-//     console.log("📦 Files:", files);
-
-//     res.json({
-//         exists: true,
-//         directory: uploadDir,
-//         files
-//     });
-// });
-
-
-// ===============================
-// HOME
-// ===============================
 
 app.get("/", (req, res) => {
     res.send("Server is Running");
 });
 
 
-// ===============================
-// API ROUTES
-// ===============================
 
 app.use("/api/auth", authRoutes);
 
@@ -162,9 +53,7 @@ app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/requests", requestRoutes);
 
 
-// ===============================
-// START SERVER
-// ===============================
+
 
 const startServer = async () => {
 

@@ -1,6 +1,5 @@
 import express from "express";
 import upload from "../Middleware/upload.js";
-import cloudinary from "../DataBase/cloudinary.js";
 
 import {
     createItem,
@@ -15,27 +14,7 @@ import authUser from "../Middleware/authUser.js";
 const router = express.Router();
 
 
-router.get("/cloudinary-signature", (req, res) => {
 
-    const timestamp = Math.floor(Date.now() / 1000);
-
-    const signature = cloudinary.utils.api_sign_request(
-        {
-            timestamp: timestamp,
-            folder: "swapzone/items"
-        },
-        process.env.CLOUDINARY_API_SECRET
-    );
-
-    console.log("TIMESTAMP:", timestamp);
-    console.log("SIGNATURE:", signature);
-
-    res.json({
-        timestamp,
-        signature,
-        api_key: process.env.CLOUDINARY_API_KEY
-    });
-});
 
 
 
